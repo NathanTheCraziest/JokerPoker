@@ -1,0 +1,89 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7nbamqhima5e"]
+
+[ext_resource type="Script" path="res://card_holder.gd" id="1_00nfs"]
+[ext_resource type="PackedScene" uid="uid://dli0uvjuaxc4a" path="res://Card/card.tscn" id="1_7x8v2"]
+[ext_resource type="Shader" path="res://background.gdshader" id="4_74s3h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ggrik"]
+shader = ExtResource("4_74s3h")
+shader_parameter/spin_rotation_speed = 2.0
+shader_parameter/move_speed = 7.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.866575, 0.184905, 0.553412, 1)
+shader_parameter/colour_2 = Color(0.115614, 0.51225, 0.858366, 1)
+shader_parameter/colour_3 = Color(0.086, 0.137, 0.145, 1)
+shader_parameter/contrast = 1.5
+shader_parameter/lighting = 0.4
+shader_parameter/spin_amount = 0.25
+shader_parameter/pixel_filter = 370.0
+shader_parameter/is_rotating = false
+
+[node name="Control" type="Node2D"]
+
+[node name="Hand" type="Node2D" parent="."]
+z_index = 2
+position = Vector2(0, 232)
+script = ExtResource("1_00nfs")
+
+[node name="Min" type="Node2D" parent="Hand"]
+position = Vector2(-300, 0)
+
+[node name="Max" type="Node2D" parent="Hand"]
+position = Vector2(300, 0)
+
+[node name="Holder" type="Node2D" parent="Hand"]
+
+[node name="Card" parent="Hand/Holder" instance=ExtResource("1_7x8v2")]
+position = Vector2(-306, -322)
+suit = 3
+rank = 10
+
+[node name="Card2" parent="Hand/Holder" instance=ExtResource("1_7x8v2")]
+position = Vector2(422, -266)
+rank = 12
+
+[node name="Card3" parent="Hand/Holder" instance=ExtResource("1_7x8v2")]
+position = Vector2(422, -266)
+rank = 12
+
+[node name="Card4" parent="Hand/Holder" instance=ExtResource("1_7x8v2")]
+position = Vector2(422, -266)
+rank = 12
+
+[node name="Card5" parent="Hand/Holder" instance=ExtResource("1_7x8v2")]
+position = Vector2(422, -266)
+rank = 12
+
+[node name="Card6" parent="Hand/Holder" instance=ExtResource("1_7x8v2")]
+position = Vector2(422, -266)
+rank = 12
+
+[node name="Card7" parent="Hand/Holder" instance=ExtResource("1_7x8v2")]
+position = Vector2(422, -266)
+rank = 12
+
+[node name="Card8" parent="Hand/Holder" instance=ExtResource("1_7x8v2")]
+position = Vector2(422, -266)
+rank = 12
+
+[node name="Card9" parent="Hand/Holder" instance=ExtResource("1_7x8v2")]
+position = Vector2(422, -266)
+rank = 12
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ggrik")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(576, 324)
+mouse_filter = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
