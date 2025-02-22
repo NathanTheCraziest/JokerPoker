@@ -19,7 +19,6 @@ var holder: CardHolder = null
 
 
 func _ready() -> void:
-	#randomize_card()
 	update_sprite()
 
 
@@ -30,33 +29,32 @@ func _process(delta: float) -> void:
 		sprite.material.set_shader_parameter("x_rot", ((mouse_pos.y / shape.shape.size.y)) * -rotation_intensity)
 		sprite.material.set_shader_parameter("y_rot", ((mouse_pos.x / shape.shape.size.x)) * rotation_intensity)
 		
-		if Input.is_action_just_pressed("select") and holder.is_highest_hover(get_index()):
+		if Input.is_action_just_pressed("select") and holder.is_highest_hover(get_index()) and CardData.can_interact:
 				on_select()
 		
 	else:
 		sprite.material.set_shader_parameter("x_rot", 0)
 		sprite.material.set_shader_parameter("y_rot", 0)
 	
-	
 	sprite.global_position = sprite.global_position.lerp(global_position, 20.0 * delta)
 
 
 func _on_mouse_entered() -> void:
 	
-	if holder != null:
+	if holder != null and CardData.can_interact:
 		holder.add_hover(get_index())
 		
 		is_card_hovering = true
 			
 			
-	else:
+	elif CardData.can_interact:
 		is_card_hovering = true
 	material.set_shader_parameter("inset", 0)
 
 
 func _on_mouse_exited() -> void:
 	
-	if holder != null:
+	if holder != null and CardData.can_interact:
 		holder.remove_hover(get_index())
 		is_card_hovering = false
 	

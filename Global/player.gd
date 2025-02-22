@@ -14,7 +14,7 @@ func draft_starter():
 
 
 func refresh_available_cards():
-	available_cards = deck
+	available_cards = deck.duplicate()
 
 
 func _ready() -> void:

@@ -7,6 +7,7 @@ var hovering: Array[int]
 
 var selected: Array[CardInstance]
 @export var max_selected: int = 1
+var container_size: int = 10
 
 @onready var holder: Node2D = $Holder
 @onready var min: Node2D = $Min
@@ -15,6 +16,7 @@ var selected: Array[CardInstance]
 signal on_hand_changed
 
 func _ready() -> void:
+	check_cards()
 	organize_cards()
 
 func check_cards():
@@ -28,11 +30,8 @@ func check_cards():
 
 func organize_cards():
 	
-	check_cards()
-	
 	var distance: float = -min.position.x + max.position.x
 	var space: float = distance / (cards.size() + 1)
-	print(space)
 	for i in cards.size():
 		cards[i].position = Vector2(min.position.x + space * (i + 1), 0)
 

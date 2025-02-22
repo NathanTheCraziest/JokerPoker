@@ -108,3 +108,4 @@ pivot_offset = Vector2(576, 324)
 mouse_filter = 2
 
 [connection signal="child_entered_tree" from="Hand/Holder" to="Hand" method="_on_card_enter_holder"]
+[connection signal="button_down" from="Hand/HBoxContainer/Discard" to="Hand" method="discard_selected"]
