@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7nbamqhima5e"]
+[gd_scene load_steps=6 format=3 uid="uid://c7nbamqhima5e"]
 
 [ext_resource type="Script" path="res://playing_card_hand.gd" id="1_rcuca"]
-[ext_resource type="Script" path="res://Card/Holder/joker_holder.gd" id="1_yn6vu"]
 [ext_resource type="Script" path="res://Card/Holder/card_score_area.gd" id="3_7t8fn"]
 [ext_resource type="Script" path="res://hand_checker.gd" id="3_la1xd"]
 [ext_resource type="Shader" path="res://background.gdshader" id="4_74s3h"]
@@ -20,19 +19,7 @@ shader_parameter/spin_amount = 0.25
 shader_parameter/pixel_filter = 370.0
 shader_parameter/is_rotating = false
 
-[node name="Game" type="Node2D"]
-
-[node name="Joker" type="Node2D" parent="."]
-position = Vector2(0, -217)
-script = ExtResource("1_yn6vu")
-
-[node name="Min" type="Node2D" parent="Joker"]
-position = Vector2(-300, 0)
-
-[node name="Max" type="Node2D" parent="Joker"]
-position = Vector2(300, 0)
-
-[node name="Holder" type="Node2D" parent="Joker"]
+[node name="Control" type="Node2D"]
 
 [node name="Hand" type="Node2D" parent="."]
 z_index = 2
@@ -55,10 +42,10 @@ position = Vector2(700, 0)
 script = ExtResource("3_la1xd")
 
 [node name="HandType" type="Label" parent="Hand/HandChecker"]
-offset_left = -541.0
-offset_top = -27.0
-offset_right = -454.0
-offset_bottom = -4.0
+offset_left = -54.0
+offset_top = -207.0
+offset_right = 33.0
+offset_bottom = -184.0
 text = "Hand Type:
 "
 
@@ -136,7 +123,6 @@ grow_vertical = 2
 pivot_offset = Vector2(576, 324)
 mouse_filter = 2
 
-[connection signal="child_entered_tree" from="Joker/Holder" to="Joker" method="_on_card_enter_holder"]
 [connection signal="child_entered_tree" from="Hand/Holder" to="Hand" method="_on_card_enter_holder"]
 [connection signal="button_down" from="Hand/HBoxContainer/Play" to="Hand" method="play_selected"]
 [connection signal="button_down" from="Hand/HBoxContainer/Discard" to="Hand" method="discard_selected"]

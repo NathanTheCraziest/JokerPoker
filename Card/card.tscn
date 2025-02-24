@@ -39,7 +39,7 @@ size = Vector2(23, 32)
 
 [node name="Card" type="Area2D"]
 material = SubResource("ShaderMaterial_ceugr")
-scale = Vector2(5, 5)
+scale = Vector2(4, 4)
 script = ExtResource("2_qtt4f")
 
 [node name="Node" type="Node" parent="."]
@@ -47,12 +47,11 @@ script = ExtResource("2_qtt4f")
 [node name="Base" type="Sprite2D" parent="Node"]
 z_index = 2
 material = SubResource("ShaderMaterial_ho8ca")
-scale = Vector2(5, 5)
+scale = Vector2(4, 4)
 texture = ExtResource("3_26fvy")
 
 [node name="Content" type="Sprite2D" parent="Node/Base"]
 use_parent_material = true
-position = Vector2(0, -0.714286)
 texture = ExtResource("4_dahl8")
 region_enabled = true
 region_rect = Rect2(0, 0, 23, 32)

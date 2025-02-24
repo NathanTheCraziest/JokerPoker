@@ -80,7 +80,7 @@ func play_selected():
 		
 		cards.remove_at(cards.find(card))
 	
-	play_holder.score_cards(temp_selected)
+	play_holder.score_cards(temp_selected, $HandChecker.current_hand)
 	
 	await play_holder.on_finished_scoring
 	
