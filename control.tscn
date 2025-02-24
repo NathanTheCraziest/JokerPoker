@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7nbamqhima5e"]
+[gd_scene load_steps=6 format=3 uid="uid://c7nbamqhima5e"]
 
 [ext_resource type="Script" path="res://playing_card_hand.gd" id="1_rcuca"]
+[ext_resource type="Script" path="res://Card/Holder/card_score_area.gd" id="3_7t8fn"]
 [ext_resource type="Script" path="res://hand_checker.gd" id="3_la1xd"]
 [ext_resource type="Shader" path="res://background.gdshader" id="4_74s3h"]
 
@@ -72,6 +73,21 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Discard"
 
+[node name="Play" type="Node2D" parent="."]
+script = ExtResource("3_7t8fn")
+max_selected = 0
+
+[node name="Holder" type="Node2D" parent="Play"]
+
+[node name="Min" type="Node2D" parent="Play"]
+position = Vector2(-300, 0)
+
+[node name="Max" type="Node2D" parent="Play"]
+position = Vector2(300, 0)
+
+[node name="ExitPos" type="Node2D" parent="Play"]
+position = Vector2(700, 0)
+
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="UI" type="Control" parent="."]
@@ -108,4 +124,6 @@ pivot_offset = Vector2(576, 324)
 mouse_filter = 2
 
 [connection signal="child_entered_tree" from="Hand/Holder" to="Hand" method="_on_card_enter_holder"]
+[connection signal="button_down" from="Hand/HBoxContainer/Play" to="Hand" method="play_selected"]
 [connection signal="button_down" from="Hand/HBoxContainer/Discard" to="Hand" method="discard_selected"]
+[connection signal="child_entered_tree" from="Play/Holder" to="Hand" method="_on_card_enter_holder"]

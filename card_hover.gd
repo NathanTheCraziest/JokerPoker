@@ -68,12 +68,15 @@ func update_sprite():
 
 func on_select():
 	
+	
+	
 	if !is_selected and holder.selected.size() <= holder.max_selected - 1:
 		is_selected = ! is_selected
 	elif is_selected:
 		is_selected = ! is_selected
 	
 	if is_selected:
+		shake_card()
 		position.y = -20
 		
 		holder.add_selected(self)
@@ -96,3 +99,10 @@ func set_card_visible(arg: bool):
 
 func set_sprite_position(position: Vector2):
 	$Node/Base.position = position
+
+
+func shake_card():
+	
+	var tween: Tween = create_tween()
+	tween.tween_property($Node/Base, "rotation_degrees", 10, 0.1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property($Node/Base, "rotation_degrees", 0, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)

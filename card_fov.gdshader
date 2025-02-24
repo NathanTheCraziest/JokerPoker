@@ -1,4 +1,4 @@
-// godot shader 
+// godot shader
 
 // 伪3d效果, 而且在启用region的节点下也能正常工作
 
@@ -124,7 +124,7 @@ void vertex(){
 
 	vec2 mouse_force = hovering * 0.5* (transformed_world_to_canvas_coordinates )/ length(region_rate/TEXTURE_PIXEL_SIZE) + rand_vec*0.05 *rand_trans_power;
 
-	
+
 
 	float sin_b = sin(y_rot / 180.0 * PI + mouse_force.x);
 
@@ -134,7 +134,7 @@ void vertex(){
 
 	float cos_c = cos(x_rot / 180.0 * PI + -mouse_force.y);
 
-	
+
 
 	inv_rot_mat;
 
@@ -144,7 +144,7 @@ void vertex(){
 
 	inv_rot_mat[0][2] = -sin_b;
 
-	
+
 
 	inv_rot_mat[1][0] = sin_b * sin_c;
 
@@ -152,7 +152,7 @@ void vertex(){
 
 	inv_rot_mat[1][2] = cos_b * sin_c;
 
-	
+
 
 	inv_rot_mat[2][0] = sin_b * cos_c;
 
@@ -160,15 +160,15 @@ void vertex(){
 
 	inv_rot_mat[2][2] = cos_b * cos_c;
 
-	
 
-	
+
+
 
 	vec2 uv = (UV - pivot ) / region_rate;
 
 
 
-	
+
 
 	float t = tan(fov / 360.0 * PI);
 
@@ -176,7 +176,7 @@ void vertex(){
 
 	VERTEX += (uv - 0.5) * 1.0*my_region_rate * t * (1.0 - inset);
 
-	
+
 
 }
 
@@ -186,7 +186,7 @@ void fragment(){
 
 	vec2 uv = (UV - pivot ) / region_rate;
 
-	
+
 
 	float t = tan(fov / 360.0 * PI);
 
@@ -198,7 +198,7 @@ void fragment(){
 
 	o = v * inv_rot_mat[2].xy;
 
-	
+
 
 	if (cull_back && p.z <= 0.0) discard;
 
@@ -214,7 +214,7 @@ void fragment(){
 
 	uv.y /= asp;
 
-	
+
 
 	if(uv.x >1.0 || uv.x < 0.0){
 

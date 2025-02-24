@@ -3,6 +3,7 @@ extends CardHolder
 class_name PlayingCardHolder
 
 @onready var draw_pos: Node2D = $DrawPos
+@onready var play_holder: PlayHolder = $"../Play"
 
 var can_play_and_discard: bool = true
 
@@ -65,6 +66,27 @@ func discard_selected():
 		
 		CardData.can_interact = true
 	
+	can_play_and_discard = true
+
+
+func play_selected():
+	CardData.can_interact = false
+	can_play_and_discard = false
+	
+	var temp_selected = selected.duplicate()
+	selected.clear()
+	
+	for card in temp_selected:
+		
+		cards.remove_at(cards.find(card))
+	
+	play_holder.score_cards(temp_selected)
+	
+	await play_holder.on_finished_scoring
+	
+	await draw_card(container_size - cards.size(), true)
+	
+	CardData.can_interact = true
 	can_play_and_discard = true
 
 
