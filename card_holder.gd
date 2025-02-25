@@ -33,7 +33,7 @@ func organize_cards():
 	var distance: float = -min.position.x + max.position.x
 	var space: float = distance / (cards.size() + 1)
 	for i in cards.size():
-		cards[i].position = Vector2(min.position.x + space * (i + 1), 0)
+		cards[i].position = Vector2(min.position.x + space * (i + 1), 0 if cards[i].is_selected else 25)
 
 func _process(delta: float) -> void:
 	pass

@@ -6,6 +6,9 @@ class_name CardInstance
 var is_card_hovering: bool = false
 var rotation_intensity: float = 5.0
 
+var is_held: bool = false
+var held_frames: int = 0
+
 var is_selected: bool = false
 var holder: CardHolder = null
 
@@ -31,10 +34,26 @@ func _process(delta: float) -> void:
 		
 		if Input.is_action_just_pressed("select") and holder.is_highest_hover(get_index()) and CardData.can_interact:
 				on_select()
+				
+				
+				is_held = true
+		elif is_held:
+			held_frames += 1
+		else:
+			held_frames = 0
+		
+		if Input.is_action_just_released("select"):
+			
+			holder.organize_cards()
+			is_held = false
 		
 	else:
 		sprite.material.set_shader_parameter("x_rot", 0)
 		sprite.material.set_shader_parameter("y_rot", 0)
+	
+	if is_held and held_frames > 4:
+		
+		global_position = get_global_mouse_position()
 	
 	sprite.global_position = sprite.global_position.lerp(global_position, 20.0 * delta)
 
@@ -49,7 +68,7 @@ func _on_mouse_entered() -> void:
 			
 	elif CardData.can_interact:
 		is_card_hovering = true
-	material.set_shader_parameter("inset", 0)
+	sprite.material.set_shader_parameter("inset", 0)
 
 
 func _on_mouse_exited() -> void:
@@ -58,7 +77,7 @@ func _on_mouse_exited() -> void:
 		holder.remove_hover(get_index())
 		is_card_hovering = false
 	
-	material.set_shader_parameter("inset", 0.02)
+	sprite.material.set_shader_parameter("inset", 0.02)
 
 
 func update_sprite():
@@ -76,13 +95,10 @@ func on_select():
 		is_selected = ! is_selected
 	
 	if is_selected:
-		shake_card()
-		position.y = -20
 		
 		holder.add_selected(self)
 		
 	else:
-		position.y = 0
 		
 		holder.remove_selected(self)
 
@@ -104,5 +120,15 @@ func set_sprite_position(position: Vector2):
 func shake_card():
 	
 	var tween: Tween = create_tween()
-	tween.tween_property($Node/Base, "rotation_degrees", 10, 0.1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property($Node/Base, "rotation_degrees", 25, 0.1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
 	tween.tween_property($Node/Base, "rotation_degrees", 0, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+
+
+func get_score_chips() -> float:
+	
+	if rank >= CardData.Rank.TWO and rank <= CardData.Rank.JACK:
+		return rank + 1
+	elif rank >= CardData.Rank.JACK and rank <= CardData.Rank.KING:
+		return 10.0
+	else:
+		return 11.0

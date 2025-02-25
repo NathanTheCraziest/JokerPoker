@@ -6,6 +6,7 @@ signal on_finished_scoring
 
 var can_interact: bool = false
 @onready var exit_pos: Node2D = $ExitPos
+@onready var scoring_box: ScoringBox = $"../UI/ScoringBox"
 
 func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 	
@@ -30,8 +31,11 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 	if hand_type == CardData.HandType.HIGH_CARD:
 		var highest_rank: CardInstance
 		for card in played_cards:
-			if highest_rank.rank < card.rank:
-				highest_rank.rank = card.rank
+			if highest_rank != null:
+				if highest_rank.rank < card.rank:
+					highest_rank = card
+			else:
+				highest_rank = card
 		
 		scoring_cards.append(highest_rank)
 	
@@ -68,7 +72,7 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 				if card.rank == rank:
 					scoring_cards.append(card)
 		print("scoring a partial hand")
-	else:
+	elif hand_type != CardData.HandType.HIGH_CARD:
 		scoring_cards = played_cards.duplicate()
 	
 	
@@ -81,6 +85,7 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 	
 	# Shake on score
 	for card in scoring_cards:
+		scoring_box.add_chips(card.get_score_chips())
 		card.shake_card()
 		await get_tree().create_timer(0.1).timeout
 	

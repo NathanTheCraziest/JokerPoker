@@ -20,8 +20,8 @@ shader_parameter/vortex_amt = null
 shader_parameter/rotation = 0.0
 shader_parameter/mouse_screen_pos_test = Vector2(0, 0)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3jojv"]
-size = Vector2(23, 32)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p6kbi"]
+size = Vector2(92, 128)
 
 [node name="Joker" type="Area2D"]
 script = ExtResource("1_h0fhr")
@@ -42,4 +42,8 @@ region_enabled = true
 region_rect = Rect2(0, 0, 23, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_3jojv")
+z_index = 2
+shape = SubResource("RectangleShape2D_p6kbi")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
