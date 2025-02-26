@@ -37,6 +37,7 @@ position = Vector2(300, 0)
 [node name="Holder" type="Node2D" parent="Joker"]
 
 [node name="Joker" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
+ability_id = "jimbo"
 
 [node name="Hand" type="Node2D" parent="."]
 z_index = 2

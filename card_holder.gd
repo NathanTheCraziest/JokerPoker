@@ -3,7 +3,7 @@ extends Node2D
 class_name CardHolder
 
 var cards: Array[CardInstance]
-var hovering: Array[int]
+var hovering: Array[CardInstance]
 
 var selected: Array[CardInstance]
 @export var max_selected: int = 1
@@ -34,28 +34,30 @@ func organize_cards():
 	var space: float = distance / (cards.size() + 1)
 	for i in cards.size():
 		cards[i].position = Vector2(min.position.x + space * (i + 1), 0 if cards[i].is_selected else 25)
+		cards[i].update_draw_order()
+		
 
 func _process(delta: float) -> void:
 	pass
 
-func add_hover(index: int):
+func add_hover(index: CardInstance):
 	hovering.append(index)
 
-func remove_hover(index: int):
+func remove_hover(index: CardInstance):
 	hovering.remove_at(hovering.find(index))
 
 func reset_hover():
 	hovering.clear()
 
-func is_highest_hover(index: int):
+func is_highest_hover(index: CardInstance):
 	var is_high: bool = false
 	var highest: int = 0
 	
 	for i in hovering:
-		if highest < i:
-			highest = i
+		if highest < i.get_index():
+			highest = i.get_index()
 	
-	if highest == index:
+	if highest == index.get_index():
 		is_high = true
 	
 	
@@ -69,3 +71,7 @@ func remove_selected(card: CardInstance):
 	
 	selected.remove_at(selected.find(card))
 	on_hand_changed.emit()
+
+func space_between_cards():
+	var distance: float = -min.position.x + max.position.x
+	return distance / cards.size()

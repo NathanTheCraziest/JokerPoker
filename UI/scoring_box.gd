@@ -15,3 +15,19 @@ func add_chips(amount: float):
 	var tween: Tween = create_tween()
 	tween.tween_property(chip_label, "rotation_degrees", 10, 0.1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
 	tween.tween_property(chip_label, "rotation_degrees", 0, 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+
+func add_mult(amount: float):
+	mult += amount
+	mult_label.text = str(mult)
+	
+	var tween: Tween = create_tween()
+	tween.tween_property(mult_label, "rotation_degrees", 10, 0.1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property(mult_label, "rotation_degrees", 0, 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+
+func x_mult(amount: float):
+	mult *= amount
+	mult_label.text = str(mult)
+	
+	var tween: Tween = create_tween()
+	tween.tween_property(mult_label, "rotation_degrees", 10, 0.1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property(mult_label, "rotation_degrees", 0, 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)

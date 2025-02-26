@@ -32,9 +32,10 @@ func _process(delta: float) -> void:
 		sprite.material.set_shader_parameter("x_rot", ((mouse_pos.y / shape.shape.size.y)) * -rotation_intensity)
 		sprite.material.set_shader_parameter("y_rot", ((mouse_pos.x / shape.shape.size.x)) * rotation_intensity)
 		
-		if Input.is_action_just_pressed("select") and holder.is_highest_hover(get_index()) and CardData.can_interact:
-				on_select()
+		
+		if Input.is_action_just_pressed("select") and holder.is_highest_hover(self) and CardData.can_interact:
 				
+				on_select()
 				
 				is_held = true
 		elif is_held:
@@ -44,6 +45,7 @@ func _process(delta: float) -> void:
 		
 		if Input.is_action_just_released("select"):
 			
+			holder.check_cards()
 			holder.organize_cards()
 			is_held = false
 		
@@ -54,14 +56,31 @@ func _process(delta: float) -> void:
 	if is_held and held_frames > 4:
 		
 		global_position = get_global_mouse_position()
+		reorder_card()
+	elif !is_held and held_frames > 4:
+		holder.organize_cards()
 	
 	sprite.global_position = sprite.global_position.lerp(global_position, 20.0 * delta)
+
+
+func reorder_card():
+	
+	if holder != null:
+		for i in holder.holder.get_children().size() - 1:
+			
+			var min: float = holder.min.position.x + (holder.space_between_cards() * i)
+			var max: float = holder.min.position.x + (holder.space_between_cards() * (i + 1))
+			
+			if position.x > min and position.x < max:
+				holder.holder.move_child(self, i)
+				sprite.z_index = 2 + get_index()
+				print("Card Pos: %s" % i)
 
 
 func _on_mouse_entered() -> void:
 	
 	if holder != null and CardData.can_interact:
-		holder.add_hover(get_index())
+		holder.add_hover(self)
 		
 		is_card_hovering = true
 			
@@ -74,7 +93,7 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	
 	if holder != null and CardData.can_interact:
-		holder.remove_hover(get_index())
+		holder.remove_hover(self)
 		is_card_hovering = false
 	
 	sprite.material.set_shader_parameter("inset", 0.02)
@@ -86,9 +105,7 @@ func update_sprite():
 
 
 func on_select():
-	
-	
-	
+
 	if !is_selected and holder.selected.size() <= holder.max_selected - 1:
 		is_selected = ! is_selected
 	elif is_selected:
@@ -132,3 +149,6 @@ func get_score_chips() -> float:
 		return 10.0
 	else:
 		return 11.0
+
+func update_draw_order():
+	sprite.z_index = 2 + get_index()
