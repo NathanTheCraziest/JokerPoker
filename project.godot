@@ -18,12 +18,16 @@ config/icon="res://icon.svg"
 [autoload]
 
 CardData="*res://Global/card_data.gd"
-Player="*res://Global/player.gd"
+Player="*res://UI/player.gd"
 Jokers="*res://Global/jokers.gd"
 
 [display]
 
 window/stretch/mode="canvas_items"
+
+[gui]
+
+theme/custom_font="res://UI/BitPotionExt.ttf"
 
 [input]
 

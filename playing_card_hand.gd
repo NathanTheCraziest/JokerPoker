@@ -4,6 +4,7 @@ class_name PlayingCardHolder
 
 @onready var draw_pos: Node2D = $DrawPos
 @onready var play_holder: PlayHolder = $"../Play"
+@onready var scoring_box: ScoringBox = $"../UI/ScoringBox"
 
 var can_play_and_discard: bool = true
 
@@ -85,6 +86,8 @@ func play_selected():
 	await play_holder.on_finished_scoring
 	
 	await draw_card(container_size - cards.size(), true)
+	
+	scoring_box.calculate_score()
 	
 	CardData.can_interact = true
 	can_play_and_discard = true

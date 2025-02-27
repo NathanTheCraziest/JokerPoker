@@ -33,32 +33,36 @@ func _process(delta: float) -> void:
 		sprite.material.set_shader_parameter("y_rot", ((mouse_pos.x / shape.shape.size.x)) * rotation_intensity)
 		
 		
-		if Input.is_action_just_pressed("select") and holder.is_highest_hover(self) and CardData.can_interact:
-				
+		if Input.is_action_just_released("select") and holder.is_highest_hover(self) and CardData.can_interact:
+			
+			if held_frames < 5:
 				on_select()
-				
-				is_held = true
-		elif is_held:
-			held_frames += 1
-		else:
-			held_frames = 0
-		
-		if Input.is_action_just_released("select"):
 			
 			holder.check_cards()
 			holder.organize_cards()
 			is_held = false
 		
+		
+		if Input.is_action_just_pressed("select") and holder.is_highest_hover(self) and CardData.can_interact:
+				
+				is_held = true
+				
+		elif is_held:
+			held_frames += 1
+		else:
+			held_frames = 0
+		
 	else:
 		sprite.material.set_shader_parameter("x_rot", 0)
 		sprite.material.set_shader_parameter("y_rot", 0)
 	
-	if is_held and held_frames > 4:
+	if is_held and held_frames > 4 and Input.is_action_pressed("select"):
 		
 		global_position = get_global_mouse_position()
 		reorder_card()
 	elif !is_held and held_frames > 4:
 		holder.organize_cards()
+	
 	
 	sprite.global_position = sprite.global_position.lerp(global_position, 20.0 * delta)
 
@@ -66,7 +70,7 @@ func _process(delta: float) -> void:
 func reorder_card():
 	
 	if holder != null:
-		for i in holder.holder.get_children().size() - 1:
+		for i in holder.holder.get_children().size():
 			
 			var min: float = holder.min.position.x + (holder.space_between_cards() * i)
 			var max: float = holder.min.position.x + (holder.space_between_cards() * (i + 1))

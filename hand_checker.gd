@@ -5,6 +5,7 @@ class_name HandChecker
 
 var holder: CardHolder = null
 var current_hand: CardData.HandType
+@onready var scoring_box: ScoringBox = $"../../UI/ScoringBox"
 
 func _ready() -> void:
 	if get_parent() is CardHolder:
@@ -23,11 +24,8 @@ func on_hand_changed():
 	var has_five_of_a_kind: bool = false
 	var is_royal: bool = false
 	
-	current_hand = CardData.HandType.HIGH_CARD
-	
 	# High Card
-	if holder.selected.size() >= 1:
-		current_hand == CardData.HandType.HIGH_CARD
+	current_hand == CardData.HandType.HIGH_CARD
 	
 	# Common
 	var ranks: Array[CardData.Rank]
@@ -99,6 +97,8 @@ func on_hand_changed():
 	
 	if has_pair:
 		current_hand = CardData.HandType.PAIR
+	else:
+		current_hand = CardData.HandType.HIGH_CARD
 	
 	if has_two_pair:
 		current_hand = CardData.HandType.TWO_PAIR
@@ -137,4 +137,5 @@ func on_hand_changed():
 		current_hand = CardData.HandType.FLUSH_FIVE
 	
 	
-	$HandType.text = "Hand Type:\n%s" % str(CardData.HandType.find_key(current_hand))
+	$HandType.text = "Hand Type:\n%s" % Player.poker_hands.get(current_hand).hand_name if holder.selected.size() >= 1 else "Hand Type"
+	scoring_box.set_hand_base(Player.poker_hands.get(current_hand))

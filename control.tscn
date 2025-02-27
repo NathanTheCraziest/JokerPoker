@@ -41,7 +41,7 @@ ability_id = "jimbo"
 
 [node name="Hand" type="Node2D" parent="."]
 z_index = 2
-position = Vector2(0, 209)
+position = Vector2(0, 190)
 script = ExtResource("1_rcuca")
 max_selected = 5
 
@@ -60,35 +60,38 @@ position = Vector2(700, 0)
 script = ExtResource("3_la1xd")
 
 [node name="HandType" type="Label" parent="Hand/HandChecker"]
-offset_left = -494.0
-offset_top = -140.0
-offset_right = -407.0
-offset_bottom = -117.0
+offset_left = -544.0
+offset_top = -181.0
+offset_right = -367.0
+offset_bottom = -87.0
+theme_override_font_sizes/font_size = 48
 text = "Hand Type:
 "
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Hand"]
-z_index = 5
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -102.0
-offset_top = 71.0
+offset_top = 90.0
 offset_right = 102.0
-offset_bottom = 111.0
+offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Play" type="Button" parent="Hand/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Play"
 
 [node name="Discard" type="Button" parent="Hand/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Discard"
 
 [node name="Play" type="Node2D" parent="."]
@@ -123,6 +126,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(576, 324)
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="Background" type="ColorRect" parent="UI"]
 material = SubResource("ShaderMaterial_ggrik")
@@ -140,6 +144,20 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(576, 324)
 mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="TurnScore" type="Label" parent="UI"]
+layout_mode = 2
+offset_top = 253.0
+offset_right = 247.0
+offset_bottom = 281.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(60, 40)
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ScoringBox" type="HBoxContainer" parent="UI"]
 layout_mode = 1
@@ -165,6 +183,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(60, 40)
+theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -182,6 +201,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(60, 40)
+theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
