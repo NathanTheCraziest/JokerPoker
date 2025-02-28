@@ -9,6 +9,9 @@ class_name ScoringBox
 var chips: float = 0
 var mult: float = 0
 
+func _ready() -> void:
+	Util.scoring_box = self
+
 func add_chips(amount: float):
 	chips += amount
 	chip_label.text = str(chips)

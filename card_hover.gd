@@ -56,6 +56,11 @@ func _process(delta: float) -> void:
 		sprite.material.set_shader_parameter("x_rot", 0)
 		sprite.material.set_shader_parameter("y_rot", 0)
 	
+	
+	if Input.is_action_just_released("select"):
+		is_held = false
+	
+	
 	if is_held and held_frames > 4 and Input.is_action_pressed("select"):
 		
 		global_position = get_global_mouse_position()
@@ -114,6 +119,7 @@ func on_select():
 		is_selected = ! is_selected
 	elif is_selected:
 		is_selected = ! is_selected
+	
 	
 	if is_selected:
 		

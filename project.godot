@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 CardData="*res://Global/card_data.gd"
 Player="*res://UI/player.gd"
 Jokers="*res://Global/jokers.gd"
+Util="*res://Global/util.gd"
 
 [display]
 

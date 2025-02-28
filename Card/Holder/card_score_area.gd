@@ -7,6 +7,7 @@ signal on_finished_scoring
 var can_interact: bool = false
 @onready var exit_pos: Node2D = $ExitPos
 @onready var scoring_box: ScoringBox = $"../UI/ScoringBox"
+@onready var joker_holder: JokerHolder = $"../Joker"
 
 func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 	
@@ -86,12 +87,35 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 	# Shake on score
 	for card in scoring_cards:
 		scoring_box.add_chips(card.get_score_chips())
+		
 		card.shake_card()
+		
+		for joker in joker_holder.cards:
+			if joker is JokerInstance:
+				await joker.ability._on_card_scored(card)
+		
 		await get_tree().create_timer(0.1).timeout
 	
 	played_cards.reverse()
 	
 	await get_tree().create_timer(0.5).timeout
+	
+	on_finished_scoring.emit()
+
+
+func is_not_scoring_full_hand(handtype: CardData.HandType) -> bool:
+	return handtype == CardData.HandType.PAIR or \
+		handtype == CardData.HandType.TWO_PAIR or \
+		handtype == CardData.HandType.THREE_OF_A_KIND or \
+		handtype == CardData.HandType.FOUR_OF_A_KIND
+
+
+func clear_played_cards(cards: Array[CardInstance]):
+	
+	var played_cards: Array[CardInstance]
+	for i in holder.get_children():
+		if i is CardInstance:
+			played_cards.append(i)
 	
 	for card in played_cards:
 		
@@ -103,12 +127,3 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 			card.reparent(Player)
 	
 	cards.clear()
-	
-	on_finished_scoring.emit()
-
-
-func is_not_scoring_full_hand(handtype: CardData.HandType) -> bool:
-	return handtype == CardData.HandType.PAIR or \
-		handtype == CardData.HandType.TWO_PAIR or \
-		handtype == CardData.HandType.THREE_OF_A_KIND or \
-		handtype == CardData.HandType.FOUR_OF_A_KIND

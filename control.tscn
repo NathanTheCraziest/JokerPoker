@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c7nbamqhima5e"]
+[gd_scene load_steps=10 format=3 uid="uid://c7nbamqhima5e"]
 
 [ext_resource type="Script" path="res://playing_card_hand.gd" id="1_rcuca"]
 [ext_resource type="Script" path="res://Card/Holder/joker_holder.gd" id="1_yn6vu"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://hand_checker.gd" id="3_la1xd"]
 [ext_resource type="Shader" path="res://background.gdshader" id="4_74s3h"]
 [ext_resource type="Script" path="res://UI/scoring_box.gd" id="7_d0738"]
+[ext_resource type="Script" path="res://alert.gd" id="8_kyc58"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ggrik"]
 shader = ExtResource("4_74s3h")
@@ -25,7 +26,7 @@ shader_parameter/is_rotating = false
 [node name="Game" type="Node2D"]
 
 [node name="Joker" type="Node2D" parent="."]
-position = Vector2(0, -217)
+position = Vector2(0, -258)
 script = ExtResource("1_yn6vu")
 
 [node name="Min" type="Node2D" parent="Joker"]
@@ -38,6 +39,18 @@ position = Vector2(300, 0)
 
 [node name="Joker" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
 ability_id = "jimbo"
+
+[node name="Joker2" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
+ability_id = "crimson_joker"
+
+[node name="Joker3" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
+ability_id = "dark_joker"
+
+[node name="Joker4" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
+ability_id = "golden_joker"
+
+[node name="Joker5" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
+ability_id = "azure_joker"
 
 [node name="Hand" type="Node2D" parent="."]
 z_index = 2
@@ -95,6 +108,7 @@ theme_override_font_sizes/font_size = 32
 text = "Discard"
 
 [node name="Play" type="Node2D" parent="."]
+position = Vector2(0, 15)
 script = ExtResource("3_7t8fn")
 max_selected = 0
 
@@ -203,6 +217,38 @@ grow_vertical = 2
 pivot_offset = Vector2(60, 40)
 theme_override_font_sizes/font_size = 32
 text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MultAlert" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+scale = Vector2(4, 4)
+script = ExtResource("8_kyc58")
+
+[node name="BG" type="ColorRect" parent="MultAlert"]
+z_index = 50
+layout_mode = 0
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+rotation = 0.785398
+pivot_offset = Vector2(6, 6)
+color = Color(0.894118, 0.231373, 0.266667, 1)
+
+[node name="Label" type="Label" parent="MultAlert"]
+z_index = 50
+layout_mode = 0
+offset_left = -45.0
+offset_top = -45.0
+offset_right = 45.0
+offset_bottom = 45.0
+scale = Vector2(0.25, 0.25)
+pivot_offset = Vector2(45, 45)
+theme_override_font_sizes/font_size = 48
+text = "+4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
