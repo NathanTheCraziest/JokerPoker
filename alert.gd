@@ -5,6 +5,7 @@ class_name ScoreAlert
 @onready var bg: ColorRect = $BG
 @onready var label: Label = $Label
 var time_since_last_active: float
+@export var is_chip_alert: bool = false
 
 func activate(new_pos: Vector2, text: String, on_bottom: bool = true):
 	global_position = new_pos + Vector2(0, 80) if on_bottom else new_pos + Vector2(0, -80)
@@ -22,7 +23,10 @@ func _process(delta: float) -> void:
 
 
 func _ready() -> void:
-	Util.mult_alert = self
+	if is_chip_alert:
+		Util.chip_alert = self
+	else:
+		Util.mult_alert = self
 
 
 func animate_bg():

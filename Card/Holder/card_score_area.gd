@@ -6,8 +6,8 @@ signal on_finished_scoring
 
 var can_interact: bool = false
 @onready var exit_pos: Node2D = $ExitPos
-@onready var scoring_box: ScoringBox = $"../UI/ScoringBox"
 @onready var joker_holder: JokerHolder = $"../Joker"
+
 
 func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 	
@@ -86,7 +86,8 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 	
 	# Shake on score
 	for card in scoring_cards:
-		scoring_box.add_chips(card.get_score_chips())
+		Util.chip_alert.activate(card.global_position, "+%s" % card.get_score_chips(), false)
+		Util.scoring_box.add_chips(card.get_score_chips())
 		
 		card.shake_card()
 		

@@ -4,7 +4,7 @@ class_name PokerHand
 
 var hand_name: String = "High Card"
 
-var level: int = 0
+var level: int = 1
 var chips: float = 10.0
 var mult: float = 2.0
 

@@ -4,7 +4,6 @@ class_name PlayingCardHolder
 
 @onready var draw_pos: Node2D = $DrawPos
 @onready var play_holder: PlayHolder = $"../Play"
-@onready var scoring_box: ScoringBox = $"../UI/ScoringBox"
 @onready var joker_holder: JokerHolder = $"../Joker"
 
 var can_play_and_discard: bool = true
@@ -12,6 +11,14 @@ var can_play_and_discard: bool = true
 func _ready() -> void:
 	await get_tree().process_frame
 	draw_card(10)
+
+
+func _process(delta: float) -> void:
+	
+	if Input.is_action_just_pressed("deselect"):
+		for card in selected:
+			card.on_select()
+
 
 func draw_card(amount: int = 1, from_discard: bool = false):
 	
@@ -72,33 +79,34 @@ func discard_selected():
 
 
 func play_selected():
-	CardData.can_interact = false
-	can_play_and_discard = false
-	
-	var temp_selected = selected.duplicate()
-	selected.clear()
-	
-	for card in temp_selected:
+	if selected.size() > 0:
+		CardData.can_interact = false
+		can_play_and_discard = false
 		
-		cards.remove_at(cards.find(card))
-	
-	play_holder.score_cards(temp_selected, $HandChecker.current_hand)
-	
-	await play_holder.on_finished_scoring
-	
-	await joker_holder.score_jokers()
-	
-	await get_tree().create_timer(0.2).timeout
-	
-	await play_holder.clear_played_cards(temp_selected)
-	
-	scoring_box.calculate_score()
-	
-	await draw_card(container_size - cards.size(), true)
-	
-	
-	CardData.can_interact = true
-	can_play_and_discard = true
+		var temp_selected = selected.duplicate()
+		selected.clear()
+		
+		for card in temp_selected:
+			
+			cards.remove_at(cards.find(card))
+		
+		play_holder.score_cards(temp_selected, $HandChecker.current_hand)
+		
+		await play_holder.on_finished_scoring
+		
+		await joker_holder.score_jokers()
+		
+		await get_tree().create_timer(0.2).timeout
+		
+		await play_holder.clear_played_cards(temp_selected)
+		
+		Util.scoring_box.calculate_score()
+		
+		await draw_card(container_size - cards.size(), true)
+		
+		
+		CardData.can_interact = true
+		can_play_and_discard = true
 
 
 func _on_card_enter_holder(node: Node) -> void:

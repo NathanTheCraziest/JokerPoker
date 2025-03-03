@@ -5,7 +5,6 @@ class_name HandChecker
 
 var holder: CardHolder = null
 var current_hand: CardData.HandType
-@onready var scoring_box: ScoringBox = $"../../UI/ScoringBox"
 
 func _ready() -> void:
 	if get_parent() is CardHolder:
@@ -68,10 +67,10 @@ func on_hand_changed():
 		# Check Straight
 		
 		for i in ranks:
-			if ranks.find(i + 1) != -1 and \
-				ranks.find(i + 2) != -1 and \
-				ranks.find(i + 3) != -1 and \
-				ranks.find(i + 4) != -1 :
+			if check_if_has_rank(ranks, i, 1) and \
+				check_if_has_rank(ranks, i, 2) and \
+				check_if_has_rank(ranks, i, 3) and \
+				check_if_has_rank(ranks, i, 4) :
 					is_straight = true
 		
 		
@@ -136,6 +135,23 @@ func on_hand_changed():
 	if is_flush and has_five_of_a_kind:
 		current_hand = CardData.HandType.FLUSH_FIVE
 	
+	if holder.selected.size() >= 1:
+		
+		Util.scoring_box.hand_name.text = Player.poker_hands.get(current_hand).hand_name
+		Util.scoring_box.hand_level.text = "Lvl.%s" % Player.poker_hands.get(current_hand).level
+		Util.scoring_box.set_hand_base(Player.poker_hands.get(current_hand))
+		
+		Util.scoring_box.show_hand_data()
+	else:
+		Util.scoring_box.show_score()
+		Util.scoring_box.clear_hand()
+
+func check_if_has_rank(ranks: Array[CardData.Rank], check_rank: int, offset: int = 0) -> bool:
+	var has_rank: bool = false
 	
-	$HandType.text = "Hand Type:\n%s" % Player.poker_hands.get(current_hand).hand_name if holder.selected.size() >= 1 else "Hand Type"
-	scoring_box.set_hand_base(Player.poker_hands.get(current_hand))
+	has_rank = ranks.find(check_rank + offset) != -1
+	
+	if check_rank + offset == CardData.Rank.KING + 1:
+		has_rank = ranks.find(CardData.Rank.ACE) != -1
+	
+	return has_rank

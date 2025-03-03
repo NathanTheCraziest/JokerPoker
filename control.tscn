@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7nbamqhima5e"]
+[gd_scene load_steps=27 format=3 uid="uid://c7nbamqhima5e"]
 
 [ext_resource type="Script" path="res://playing_card_hand.gd" id="1_rcuca"]
 [ext_resource type="Script" path="res://Card/Holder/joker_holder.gd" id="1_yn6vu"]
@@ -7,7 +7,62 @@
 [ext_resource type="Script" path="res://hand_checker.gd" id="3_la1xd"]
 [ext_resource type="Shader" path="res://background.gdshader" id="4_74s3h"]
 [ext_resource type="Script" path="res://UI/scoring_box.gd" id="7_d0738"]
+[ext_resource type="Texture2D" uid="uid://cvvm7dcn1d0dv" path="res://Card/score_icon.png" id="8_c8m7p"]
+[ext_resource type="Shader" path="res://UI/score_fire.gdshader" id="8_euent"]
 [ext_resource type="Script" path="res://alert.gd" id="8_kyc58"]
+[ext_resource type="Texture2D" uid="uid://b2d1uos11bgd6" path="res://Card/stake.png" id="10_d7w0s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjv03"]
+atlas = ExtResource("8_c8m7p")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yw6c7"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(0.47237, 0.75237, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sownk"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(0, 0.489494, 0.791598, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hu45t"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(0, 0.623529, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4ha7e"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(1, 0.416319, 0.350376, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8rq4"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(0.699217, 0, 0.00682687, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vjhkv"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(1, 0, 0.0166664, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ggrik"]
 shader = ExtResource("4_74s3h")
@@ -22,6 +77,50 @@ shader_parameter/lighting = 0.4
 shader_parameter/spin_amount = 0.25
 shader_parameter/pixel_filter = 370.0
 shader_parameter/is_rotating = false
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mfye4"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_g2wyt"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_i5byq"]
+width = 600
+height = 300
+noise = SubResource("FastNoiseLite_g2wyt")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fb3bb"]
+shader = ExtResource("8_euent")
+shader_parameter/brighter_color = Color(0, 0.584314, 1, 1)
+shader_parameter/middle_color = Color(0, 0.584314, 1, 1)
+shader_parameter/darker_color = Color(0.439216, 0.729412, 0.980392, 1)
+shader_parameter/spread = 0.55
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_i5byq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_srlio"]
+shader = ExtResource("8_euent")
+shader_parameter/brighter_color = Color(1, 0, 0, 1)
+shader_parameter/middle_color = Color(1, 0, 0, 1)
+shader_parameter/darker_color = Color(1, 0, 0.478431, 1)
+shader_parameter/spread = 0.55
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_i5byq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2p5ku"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tudvx"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
 
 [node name="Game" type="Node2D"]
 
@@ -54,7 +153,7 @@ ability_id = "azure_joker"
 
 [node name="Hand" type="Node2D" parent="."]
 z_index = 2
-position = Vector2(0, 190)
+position = Vector2(0, 200)
 script = ExtResource("1_rcuca")
 max_selected = 5
 
@@ -72,39 +171,39 @@ position = Vector2(700, 0)
 [node name="HandChecker" type="Node" parent="Hand"]
 script = ExtResource("3_la1xd")
 
-[node name="HandType" type="Label" parent="Hand/HandChecker"]
-offset_left = -544.0
-offset_top = -181.0
-offset_right = -367.0
-offset_bottom = -87.0
-theme_override_font_sizes/font_size = 48
-text = "Hand Type:
-"
-horizontal_alignment = 1
-
 [node name="HBoxContainer" type="HBoxContainer" parent="Hand"]
+z_index = 50
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -102.0
-offset_top = 90.0
+offset_top = 76.0
 offset_right = 102.0
-offset_bottom = 130.0
+offset_bottom = 122.0
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Play" type="Button" parent="Hand/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 32
+theme_override_styles/hover = SubResource("StyleBoxTexture_yw6c7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_sownk")
+theme_override_styles/normal = SubResource("StyleBoxTexture_hu45t")
 text = "Play"
 
 [node name="Discard" type="Button" parent="Hand/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+focus_mode = 0
 theme_override_font_sizes/font_size = 32
+theme_override_styles/hover = SubResource("StyleBoxTexture_4ha7e")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_j8rq4")
+theme_override_styles/normal = SubResource("StyleBoxTexture_vjhkv")
 text = "Discard"
 
 [node name="Play" type="Node2D" parent="."]
@@ -160,36 +259,34 @@ pivot_offset = Vector2(576, 324)
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[node name="TurnScore" type="Label" parent="UI"]
-layout_mode = 2
-offset_top = 253.0
-offset_right = 247.0
-offset_bottom = 281.0
-grow_horizontal = 2
+[node name="Panel" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 257.0
 grow_vertical = 2
-pivot_offset = Vector2(60, 40)
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 32
-horizontal_alignment = 1
-vertical_alignment = 1
+color = Color(0, 0, 0, 0.517647)
 
-[node name="ScoringBox" type="HBoxContainer" parent="UI"]
+[node name="ScoringBox" type="HBoxContainer" parent="UI/Panel"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -40.0
-offset_right = 244.0
-offset_bottom = 40.0
+offset_left = 6.0
+offset_top = -36.0
+offset_right = 250.0
+offset_bottom = 34.0
 grow_vertical = 2
 script = ExtResource("7_d0738")
 
-[node name="Chip" type="ColorRect" parent="UI/ScoringBox"]
+[node name="Chip" type="Panel" parent="UI/Panel/ScoringBox"]
+self_modulate = Color(0, 0.584314, 1, 1)
+z_index = 5
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-color = Color(0, 0.639216, 1, 1)
+theme_override_styles/panel = SubResource("StyleBoxTexture_mfye4")
 
-[node name="Label" type="Label" parent="UI/ScoringBox/Chip"]
+[node name="Label" type="Label" parent="UI/Panel/ScoringBox/Chip"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -202,12 +299,23 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Mult" type="ColorRect" parent="UI/ScoringBox"]
+[node name="Fire" type="ColorRect" parent="UI/Panel/ScoringBox/Chip"]
+visible = false
+z_index = -1
+material = SubResource("ShaderMaterial_fb3bb")
+layout_mode = 0
+offset_top = -23.0
+offset_right = 120.0
+offset_bottom = 36.0
+
+[node name="Mult" type="Panel" parent="UI/Panel/ScoringBox"]
+self_modulate = Color(1, 0, 0, 1)
+z_index = 5
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-color = Color(1, 0, 0, 1)
+theme_override_styles/panel = SubResource("StyleBoxTexture_mfye4")
 
-[node name="Label" type="Label" parent="UI/ScoringBox/Mult"]
+[node name="Label" type="Label" parent="UI/Panel/ScoringBox/Mult"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -215,6 +323,111 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(60, 40)
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fire" type="ColorRect" parent="UI/Panel/ScoringBox/Mult"]
+visible = false
+z_index = -1
+material = SubResource("ShaderMaterial_srlio")
+layout_mode = 0
+offset_top = -23.0
+offset_right = 120.0
+offset_bottom = 36.0
+
+[node name="HandData" type="HBoxContainer" parent="UI/Panel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 248.0
+offset_right = 250.0
+offset_bottom = 288.0
+alignment = 1
+
+[node name="HandName" type="Label" parent="UI/Panel/HandData"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Five of a Kind"
+
+[node name="HandLevel" type="Label" parent="UI/Panel/HandData"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.716296, 0.716296, 0.716296, 1)
+theme_override_font_sizes/font_size = 32
+text = "Lvl 3"
+
+[node name="TurnScore" type="Label" parent="UI/Panel/HandData"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundScore" type="Panel" parent="UI/Panel"]
+self_modulate = Color(0.136826, 0.136826, 0.136826, 1)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -150.0
+offset_bottom = -84.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2p5ku")
+
+[node name="Label" type="Label" parent="UI/Panel/RoundScore"]
+layout_mode = 2
+offset_left = 9.0
+offset_top = 1.0
+offset_right = 61.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 32
+text = "Round
+Score"
+
+[node name="ScorePanel" type="Panel" parent="UI/Panel/RoundScore"]
+self_modulate = Color(0.241156, 0.241156, 0.241156, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.5
+offset_top = -27.0
+offset_right = 122.5
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tudvx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Panel/RoundScore/ScorePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Control" type="Control" parent="UI/Panel/RoundScore/ScorePanel/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/Panel/RoundScore/ScorePanel/HBoxContainer/Control"]
+layout_mode = 2
+offset_left = 4.0
+offset_top = 8.0
+offset_right = 36.0
+offset_bottom = 40.0
+texture = ExtResource("10_d7w0s")
+
+[node name="Label" type="Label" parent="UI/Panel/RoundScore/ScorePanel/HBoxContainer"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 1
@@ -239,6 +452,39 @@ pivot_offset = Vector2(6, 6)
 color = Color(0.894118, 0.231373, 0.266667, 1)
 
 [node name="Label" type="Label" parent="MultAlert"]
+z_index = 50
+layout_mode = 0
+offset_left = -45.0
+offset_top = -45.0
+offset_right = 45.0
+offset_bottom = 45.0
+scale = Vector2(0.25, 0.25)
+pivot_offset = Vector2(45, 45)
+theme_override_font_sizes/font_size = 48
+text = "+4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChipAlert" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+scale = Vector2(4, 4)
+script = ExtResource("8_kyc58")
+is_chip_alert = true
+
+[node name="BG" type="ColorRect" parent="ChipAlert"]
+z_index = 50
+layout_mode = 0
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+rotation = 0.785398
+pivot_offset = Vector2(6, 6)
+color = Color(0, 0.6, 0.858824, 1)
+
+[node name="Label" type="Label" parent="ChipAlert"]
 z_index = 50
 layout_mode = 0
 offset_left = -45.0

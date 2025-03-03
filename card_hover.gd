@@ -81,7 +81,6 @@ func reorder_card():
 			
 			if position.x > min and position.x < max:
 				holder.holder.move_child(self, i)
-				sprite.z_index = 2 + get_index()
 				print("Card Pos: %s" % i)
 
 
