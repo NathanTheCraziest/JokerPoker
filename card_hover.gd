@@ -16,6 +16,8 @@ var holder: CardHolder = null
 @export var suit: CardData.Suit
 @export var rank: CardData.Rank
 
+var sell_value: int = 1
+
 @onready var sprite: Sprite2D = $Node/Base
 @onready var shape: CollisionShape2D = $CollisionShape2D
 @onready var content: Sprite2D = $Node/Base/Content
@@ -41,6 +43,7 @@ func _process(delta: float) -> void:
 			holder.check_cards()
 			holder.organize_cards()
 			is_held = false
+			
 		
 		
 		if Input.is_action_just_pressed("select") and holder.is_highest_hover(self) and CardData.can_interact:
@@ -51,6 +54,7 @@ func _process(delta: float) -> void:
 			held_frames += 1
 		else:
 			held_frames = 0
+		
 		
 	else:
 		sprite.material.set_shader_parameter("x_rot", 0)
@@ -159,4 +163,5 @@ func get_score_chips() -> float:
 		return 11.0
 
 func update_draw_order():
-	sprite.z_index = 2 + get_index()
+	if !is_selected:
+		sprite.z_index = 2 + get_index()

@@ -4,6 +4,13 @@ extends Node
 var deck: Array[CardInstance]
 var available_cards: Array[CardInstance]
 
+var max_hands: int = 4
+var max_discards: int = 3
+
+var money: int = 4
+
+var current_money: int = 5
+
 var poker_hands: Dictionary = {
 	CardData.HandType.HIGH_CARD: PokerHand.new("High Card", 5.0, 1.0),
 	CardData.HandType.PAIR: PokerHand.new("Pair", 10.0, 2.0),

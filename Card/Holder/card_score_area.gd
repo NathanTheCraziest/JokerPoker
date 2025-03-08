@@ -95,7 +95,7 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 			if joker is JokerInstance:
 				await joker.ability._on_card_scored(card)
 		
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.2).timeout
 	
 	played_cards.reverse()
 	

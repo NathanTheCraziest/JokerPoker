@@ -20,7 +20,7 @@ func update_sprite():
 
 func on_select():
 	
-	if holder.selected.size() > 0 and !is_selected:
+	if holder.selected.size() > 0 and !is_selected and !Util.just_sold:
 		for card in holder.selected:
 			card.is_selected = false
 			holder.remove_selected(card)
@@ -31,8 +31,22 @@ func on_select():
 	
 	if is_selected:
 		
+		$Node/Base.z_index = 3 + get_parent().get_children().size()
+		
 		holder.add_selected(self)
+		if Util.sell_button != null:
+			Util.sell_button.selected_card = self
+			Util.sell_button.show()
+			Util.sell_button.reparent($Node/Base, 1)
+			Util.sell_button.scale = Vector2(1, 1)
+			Util.sell_button.position = Vector2.ZERO
+			Util.sell_button.position.x = 10
 		
 	else:
 		
+		$Node/Base.z_index = 2 + get_index()
+		
 		holder.remove_selected(self)
+		if Util.sell_button != null:
+			Util.sell_button.reparent(Util.game_manager)
+			Util.sell_button.hide()

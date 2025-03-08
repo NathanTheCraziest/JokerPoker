@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjvvsih375tr0"]
+
+[ext_resource type="Texture2D" uid="uid://dqpnlgfqqnrgu" path="res://Card/sell_button.png" id="1_w3huj"]
+[ext_resource type="Script" path="res://Card/sell_button.gd" id="2_7sdfk"]
+
+[node name="SellButton" type="Sprite2D"]
+position = Vector2(11.5, 0)
+texture = ExtResource("1_w3huj")
+script = ExtResource("2_7sdfk")
+
+[node name="Label" type="Label" parent="."]
+use_parent_material = true
+offset_top = -5.0
+offset_right = 29.0
+offset_bottom = 15.0
+scale = Vector2(0.4, 0.4)
+text = "Sell"
+horizontal_alignment = 1
+
+[node name="Value" type="Label" parent="."]
+use_parent_material = true
+offset_left = 0.25
+offset_top = -1.25
+offset_right = 29.25
+offset_bottom = 18.75
+scale = Vector2(0.4, 0.4)
+text = "$1"
+horizontal_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="."]
+offset_top = -4.0
+offset_right = 11.0
+offset_bottom = 4.0
+
+[connection signal="button_down" from="TextureButton" to="." method="_on_texture_button_button_down"]

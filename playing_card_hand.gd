@@ -13,13 +13,6 @@ func _ready() -> void:
 	draw_card(10)
 
 
-func _process(delta: float) -> void:
-	
-	if Input.is_action_just_pressed("deselect"):
-		for card in selected:
-			card.on_select()
-
-
 func draw_card(amount: int = 1, from_discard: bool = false):
 	
 	if can_play_and_discard or from_discard:
@@ -48,8 +41,8 @@ func draw_card(amount: int = 1, from_discard: bool = false):
 
 func discard_selected():
 	
-	if can_play_and_discard:
-		
+	if can_play_and_discard and selected.size() > 0 and Util.game_manager.discard > 0:
+		Util.game_manager.set_discards(Util.game_manager.discard - 1)
 		can_play_and_discard = false
 		CardData.can_interact = false
 		
@@ -79,7 +72,8 @@ func discard_selected():
 
 
 func play_selected():
-	if selected.size() > 0:
+	if selected.size() > 0 and Util.game_manager.hands > 0:
+		Util.game_manager.set_hands(Util.game_manager.hands - 1)
 		CardData.can_interact = false
 		can_play_and_discard = false
 		
@@ -102,7 +96,25 @@ func play_selected():
 		
 		Util.scoring_box.calculate_score()
 		
-		await draw_card(container_size - cards.size(), true)
+		if Util.game_manager.pre_round_score >= Util.game_manager.blind_panel.blind_goal:
+			cards.reverse()
+			for card in cards:
+				card.position = draw_pos.position
+				
+				await get_tree().create_timer(0.09).timeout
+				card.reparent(Player)
+				card.set_card_visible(false)
+			cards.clear()
+			
+			set_holder_hidden(true)
+			
+			await get_tree().create_timer(0.5).timeout
+			
+			Util.end_reward_panel.set_panel_visible(true)
+			await get_tree().create_timer(0.5).timeout
+			Util.end_reward_panel.get_end_rewards()
+		else:
+			await draw_card(container_size - cards.size(), true)
 		
 		
 		CardData.can_interact = true

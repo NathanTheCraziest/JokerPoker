@@ -7,6 +7,9 @@ var hovering: Array[CardInstance]
 
 var selected: Array[CardInstance]
 @export var max_selected: int = 1
+@export var hide_position: Vector2
+@export var show_position: Vector2
+@export var is_hidden: bool = false
 var container_size: int = 10
 
 @onready var holder: Node2D = $Holder
@@ -54,8 +57,9 @@ func is_highest_hover(index: CardInstance):
 	var highest: int = 0
 	
 	for i in hovering:
-		if highest < i.get_index():
-			highest = i.get_index()
+		if i != null:
+			if highest < i.get_index():
+				highest = i.get_index()
 	
 	if highest == index.get_index():
 		is_high = true
@@ -75,3 +79,17 @@ func remove_selected(card: CardInstance):
 func space_between_cards():
 	var distance: float = -min.position.x + max.position.x
 	return distance / cards.size()
+
+func delete_card(card: CardInstance):
+	var selected_card: CardInstance = cards[cards.find(card)]
+	cards.remove_at(cards.find(card))
+	remove_selected(selected_card)
+	
+	card.queue_free()
+	organize_cards()
+
+func set_holder_hidden(arg: bool):
+	is_hidden = arg
+	
+	var tween: Tween = create_tween()
+	tween.tween_property(self, "position", show_position if !is_hidden else hide_position, 0.3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)

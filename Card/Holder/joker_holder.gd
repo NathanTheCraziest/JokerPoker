@@ -3,6 +3,7 @@ extends CardHolder
 class_name JokerHolder
 
 @onready var hand_checker: HandChecker = $"../Hand/HandChecker"
+var sell_value: int = 1
 
 signal _jokers_done_scoring
 

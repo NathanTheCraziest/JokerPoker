@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://c7nbamqhima5e"]
+[gd_scene load_steps=38 format=3 uid="uid://c7nbamqhima5e"]
 
 [ext_resource type="Script" path="res://playing_card_hand.gd" id="1_rcuca"]
+[ext_resource type="Script" path="res://game_manager.gd" id="1_rx3vy"]
 [ext_resource type="Script" path="res://Card/Holder/joker_holder.gd" id="1_yn6vu"]
 [ext_resource type="PackedScene" uid="uid://6lt82dhse2ni" path="res://Card/Joker/joker_card.tscn" id="2_jf30t"]
 [ext_resource type="Script" path="res://Card/Holder/card_score_area.gd" id="3_7t8fn"]
@@ -11,10 +12,20 @@
 [ext_resource type="Shader" path="res://UI/score_fire.gdshader" id="8_euent"]
 [ext_resource type="Script" path="res://alert.gd" id="8_kyc58"]
 [ext_resource type="Texture2D" uid="uid://b2d1uos11bgd6" path="res://Card/stake.png" id="10_d7w0s"]
+[ext_resource type="Script" path="res://UI/blind_manager.gd" id="11_wb75y"]
+[ext_resource type="Script" path="res://UI/Reward/end_reward_panel.gd" id="13_xhqpr"]
+[ext_resource type="PackedScene" uid="uid://bjvvsih375tr0" path="res://sell_button.tscn" id="14_dxtaq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sjv03"]
 atlas = ExtResource("8_c8m7p")
-region = Rect2(0, 48, 48, 48)
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2p5ku"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yw6c7"]
 texture = SubResource("AtlasTexture_sjv03")
@@ -108,13 +119,6 @@ shader_parameter/darker_color = Color(1, 0, 0.478431, 1)
 shader_parameter/spread = 0.55
 shader_parameter/noise_tex = SubResource("NoiseTexture2D_i5byq")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2p5ku"]
-texture = SubResource("AtlasTexture_sjv03")
-texture_margin_left = 9.0
-texture_margin_top = 9.0
-texture_margin_right = 9.0
-texture_margin_bottom = 9.0
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tudvx"]
 texture = SubResource("AtlasTexture_sjv03")
 texture_margin_left = 9.0
@@ -122,7 +126,63 @@ texture_margin_top = 9.0
 texture_margin_right = 9.0
 texture_margin_bottom = 9.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8i60l"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ram76"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(1, 0.335514, 0.269596, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oxwyo"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(0.632225, 1.9493e-06, 3.36915e-07, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_38hiq"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ocype"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(1, 0.74, 0.22, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dw5wh"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(0.74, 0.493333, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5je0q"]
+texture = SubResource("AtlasTexture_sjv03")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(1, 0.662745, 0, 1)
+
 [node name="Game" type="Node2D"]
+script = ExtResource("1_rx3vy")
 
 [node name="Joker" type="Node2D" parent="."]
 position = Vector2(0, -258)
@@ -151,11 +211,44 @@ ability_id = "golden_joker"
 [node name="Joker5" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
 ability_id = "azure_joker"
 
+[node name="RoundScore" type="Panel" parent="Joker"]
+self_modulate = Color(0.14, 0.14, 0.14, 0.282353)
+z_index = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -43.0
+offset_right = 252.0
+offset_bottom = 89.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2p5ku")
+
 [node name="Hand" type="Node2D" parent="."]
 z_index = 2
 position = Vector2(0, 200)
 script = ExtResource("1_rcuca")
 max_selected = 5
+hide_position = Vector2(0, 400)
+show_position = Vector2(0, 200)
+
+[node name="RoundScore" type="Panel" parent="Hand"]
+self_modulate = Color(0.14, 0.14, 0.14, 0.282353)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -43.0
+offset_right = 300.0
+offset_bottom = 89.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2p5ku")
 
 [node name="Min" type="Node2D" parent="Hand"]
 position = Vector2(-300, 0)
@@ -366,6 +459,128 @@ theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="BlindPanel" type="Panel" parent="UI/Panel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -324.0
+offset_bottom = -148.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_wb75y")
+
+[node name="BlindData" type="Panel" parent="UI/Panel/BlindPanel"]
+self_modulate = Color(0.288, 0.288, 0.45, 1)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -33.0
+offset_right = -5.0
+offset_bottom = 84.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2p5ku")
+
+[node name="ScorePanel" type="Panel" parent="UI/Panel/BlindPanel/BlindData"]
+self_modulate = Color(0.241156, 0.241156, 0.241156, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -54.5
+offset_right = 119.5
+offset_bottom = 54.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tudvx")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="UI/Panel/BlindPanel/BlindData/ScorePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Tip" type="Label" parent="UI/Panel/BlindPanel/BlindData/ScorePanel/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Score at least"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Panel/BlindPanel/BlindData/ScorePanel/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Control" type="Control" parent="UI/Panel/BlindPanel/BlindData/ScorePanel/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(26, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/Panel/BlindPanel/BlindData/ScorePanel/HBoxContainer/HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -11.0
+offset_right = 19.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("10_d7w0s")
+
+[node name="Label" type="Label" parent="UI/Panel/BlindPanel/BlindData/ScorePanel/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Reward" type="Label" parent="UI/Panel/BlindPanel/BlindData/ScorePanel/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.827451, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "$"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BlindName" type="Panel" parent="UI/Panel/BlindPanel"]
+self_modulate = Color(0.239216, 0.239216, 0.505882, 1)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 9.0
+offset_top = 4.0
+offset_right = -9.0
+offset_bottom = 48.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_8i60l")
+
+[node name="Label" type="Label" parent="UI/Panel/BlindPanel/BlindName"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Small Blind"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="RoundScore" type="Panel" parent="UI/Panel"]
 self_modulate = Color(0.136826, 0.136826, 0.136826, 1)
 layout_mode = 1
@@ -415,15 +630,23 @@ grow_vertical = 2
 alignment = 1
 
 [node name="Control" type="Control" parent="UI/Panel/RoundScore/ScorePanel/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(26, 0)
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="UI/Panel/RoundScore/ScorePanel/HBoxContainer/Control"]
-layout_mode = 2
-offset_left = 4.0
-offset_top = 8.0
-offset_right = 36.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -11.0
+offset_right = 19.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("10_d7w0s")
 
 [node name="Label" type="Label" parent="UI/Panel/RoundScore/ScorePanel/HBoxContainer"]
@@ -432,6 +655,321 @@ theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Hands" type="Panel" parent="UI/Panel"]
+self_modulate = Color(0.288, 0.288, 0.45, 1)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = 38.0
+offset_right = -131.0
+offset_bottom = 109.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2p5ku")
+
+[node name="Tip" type="Label" parent="UI/Panel/Hands"]
+layout_mode = 2
+offset_top = -2.0
+offset_right = 120.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 32
+text = "Hands"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScorePanel" type="Panel" parent="UI/Panel/Hands"]
+self_modulate = Color(0.241156, 0.241156, 0.241156, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -9.5
+offset_right = 57.0
+offset_bottom = 29.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tudvx")
+
+[node name="Tip" type="Label" parent="UI/Panel/Hands/ScorePanel"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = -4.0
+offset_right = 117.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(0, 0.698039, 1, 1)
+theme_override_font_sizes/font_size = 48
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Discards" type="Panel" parent="UI/Panel"]
+self_modulate = Color(0.288, 0.288, 0.45, 1)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 130.0
+offset_top = 38.0
+offset_right = -7.0
+offset_bottom = 109.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2p5ku")
+
+[node name="Tip" type="Label" parent="UI/Panel/Discards"]
+layout_mode = 2
+offset_top = -2.0
+offset_right = 120.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 32
+text = "Discards"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScorePanel" type="Panel" parent="UI/Panel/Discards"]
+self_modulate = Color(0.241156, 0.241156, 0.241156, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -9.5
+offset_right = 57.0
+offset_bottom = 29.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tudvx")
+
+[node name="Tip" type="Label" parent="UI/Panel/Discards/ScorePanel"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = -4.0
+offset_right = 117.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ante" type="Panel" parent="UI/Panel"]
+self_modulate = Color(0.288, 0.288, 0.45, 1)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 130.0
+offset_top = 175.0
+offset_right = -7.0
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2p5ku")
+
+[node name="Tip" type="Label" parent="UI/Panel/Ante"]
+layout_mode = 2
+offset_top = -2.0
+offset_right = 120.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 32
+text = "Ante"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScorePanel" type="Panel" parent="UI/Panel/Ante"]
+self_modulate = Color(0.241156, 0.241156, 0.241156, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -9.5
+offset_right = 57.0
+offset_bottom = 29.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tudvx")
+
+[node name="Tip" type="Label" parent="UI/Panel/Ante/ScorePanel"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = -4.0
+offset_right = 117.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(1, 0.509804, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "1/8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Round" type="Panel" parent="UI/Panel"]
+self_modulate = Color(0.288, 0.288, 0.45, 1)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 130.0
+offset_top = 249.0
+offset_right = -7.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2p5ku")
+
+[node name="Tip" type="Label" parent="UI/Panel/Round"]
+layout_mode = 2
+offset_top = -2.0
+offset_right = 120.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 32
+text = "Round"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScorePanel" type="Panel" parent="UI/Panel/Round"]
+self_modulate = Color(0.241156, 0.241156, 0.241156, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -9.5
+offset_right = 57.0
+offset_bottom = 29.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tudvx")
+
+[node name="Tip" type="Label" parent="UI/Panel/Round/ScorePanel"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = -4.0
+offset_right = 117.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(1, 0.509804, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Money" type="Panel" parent="UI/Panel"]
+self_modulate = Color(0.288, 0.288, 0.45, 1)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = 113.0
+offset_right = -8.0
+offset_bottom = 172.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2p5ku")
+
+[node name="ScorePanel" type="Panel" parent="UI/Panel/Money"]
+self_modulate = Color(0.241156, 0.241156, 0.241156, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.5
+offset_top = -26.5
+offset_right = 115.5
+offset_bottom = 23.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tudvx")
+
+[node name="Tip" type="Label" parent="UI/Panel/Money/ScorePanel"]
+layout_mode = 0
+offset_top = -5.0
+offset_right = 231.0
+offset_bottom = 51.0
+theme_override_colors/font_color = Color(1, 0.772549, 0, 1)
+theme_override_font_sizes/font_size = 64
+text = "$0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="UI/Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 503.0
+offset_right = 124.0
+offset_bottom = 641.0
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/hover = SubResource("StyleBoxTexture_ram76")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_oxwyo")
+theme_override_styles/normal = SubResource("StyleBoxTexture_38hiq")
+text = "Run
+Info"
+
+[node name="EndRewardPanel" type="Panel" parent="UI"]
+self_modulate = Color(0.239216, 0.239216, 0.239216, 1)
+z_index = 100
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -226.0
+offset_top = 376.0
+offset_right = 224.0
+offset_bottom = 826.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_tudvx")
+script = ExtResource("13_xhqpr")
+
+[node name="Button" type="Button" parent="UI/EndRewardPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -132.5
+offset_top = 11.0
+offset_right = 132.5
+offset_bottom = 71.0
+grow_horizontal = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/hover = SubResource("StyleBoxTexture_ocype")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dw5wh")
+theme_override_styles/normal = SubResource("StyleBoxTexture_5je0q")
+text = "Cash out: 0$"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/EndRewardPanel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 6.0
+offset_top = 83.0
+offset_right = -6.0
+offset_bottom = 419.0
+grow_horizontal = 2
 
 [node name="MultAlert" type="Control" parent="."]
 visible = false
@@ -498,8 +1036,14 @@ text = "+4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="SellButton" parent="." instance=ExtResource("14_dxtaq")]
+visible = false
+z_index = -1
+position = Vector2(-667.128, -130.662)
+
 [connection signal="child_entered_tree" from="Joker/Holder" to="Joker" method="_on_card_enter_holder"]
 [connection signal="child_entered_tree" from="Hand/Holder" to="Hand" method="_on_card_enter_holder"]
 [connection signal="button_down" from="Hand/HBoxContainer/Play" to="Hand" method="play_selected"]
 [connection signal="button_down" from="Hand/HBoxContainer/Discard" to="Hand" method="discard_selected"]
 [connection signal="child_entered_tree" from="Play/Holder" to="Hand" method="_on_card_enter_holder"]
+[connection signal="button_down" from="UI/EndRewardPanel/Button" to="UI/EndRewardPanel" method="_on_cash_out_button_down"]
