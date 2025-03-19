@@ -19,3 +19,6 @@ func _on_card_scored(card: CardInstance):
 
 func get_texture_index() -> int:
 	return 0
+
+func get_tip_message() -> String:
+	return "Joker"

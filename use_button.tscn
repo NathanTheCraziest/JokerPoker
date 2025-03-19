@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://b77317nvpjxaf"]
+
+[ext_resource type="Texture2D" uid="uid://dqpnlgfqqnrgu" path="res://Card/sell_button.png" id="1_rk2ff"]
+[ext_resource type="Script" path="res://use_button.gd" id="2_thpdf"]
+
+[node name="UseButton" type="Sprite2D"]
+position = Vector2(11.5, 0)
+texture = ExtResource("1_rk2ff")
+region_enabled = true
+region_rect = Rect2(23, 0, 23, 32)
+script = ExtResource("2_thpdf")
+
+[node name="Label" type="Label" parent="."]
+use_parent_material = true
+offset_left = -0.5
+offset_top = -4.0
+offset_right = 28.5
+offset_bottom = 16.0
+scale = Vector2(0.4, 0.4)
+text = "Use"
+horizontal_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="."]
+offset_top = -4.0
+offset_right = 11.0
+offset_bottom = 4.0
+
+[connection signal="button_down" from="TextureButton" to="." method="_on_texture_button_button_down"]

@@ -131,6 +131,10 @@ func check_score_higher_than_goal():
 			var tween: Tween = create_tween()
 			
 			tween.tween_method(set_fire_intensity, 0.3, 0.55, 1.0)
+	else:
+		var tween: Tween = create_tween()
+			
+		tween.tween_method(set_fire_intensity, 0.3, 0.55, 1.0)
 
 
 func set_fire_intensity(arg: float):

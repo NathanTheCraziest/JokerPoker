@@ -1,29 +1,6 @@
 extends CardInstance
 
-class_name JokerInstance
-
-var ability: JokerAbility = null
-
-@export var ability_id: String
-
-func _ready() -> void:
-	update_ability()
-
-
-func update_ability():
-	if ability != null:
-		ability.queue_free()
-	
-	if Jokers.abilities.get(ability_id) == null:
-		ability = load("res://Card/Joker/Abilities/jimbo.gd").new()
-	else:
-		ability = load(Jokers.abilities.get(ability_id)).new()
-	add_child(ability)
-	update_sprite()
-
-
-func update_sprite():
-	content.region_rect.position.x = 23 * ability.get_texture_index()
+class_name ConsumableInstsance
 
 
 func on_select():
@@ -48,6 +25,7 @@ func on_select():
 				Util.buy_button.show()
 				Util.buy_button.reparent($Node/Base, 1)
 				Util.buy_button.scale = Vector2(1, 1)
+				Util.buy_button.rotation = 0
 				Util.buy_button.position = Vector2.ZERO
 				Util.buy_button.position.x = 10
 				Util.buy_button.update_text()
@@ -57,8 +35,17 @@ func on_select():
 				Util.sell_button.show()
 				Util.sell_button.reparent($Node/Base, 1)
 				Util.sell_button.scale = Vector2(1, 1)
-				Util.sell_button.position = Vector2.ZERO
+				Util.buy_button.rotation = 0
+				Util.sell_button.position.y = -5
 				Util.sell_button.position.x = 10
+			
+			if Util.use_button != null:
+				Util.use_button.selected_card = self
+				Util.use_button.show()
+				Util.use_button.reparent($Node/Base, 1)
+				Util.use_button.scale = Vector2(1, 1)
+				Util.use_button.position.y = 5
+				Util.use_button.position.x = 10
 		
 	else:
 		
@@ -71,6 +58,10 @@ func on_select():
 		if Util.buy_button != null:
 			Util.buy_button.reparent(Util.game_manager)
 			Util.buy_button.hide()
+		if Util.use_button != null:
+			Util.use_button.reparent(Util.game_manager)
+			Util.use_button.hide()
 
-func get_tip_message() -> String:
-	return ability.get_tip_message()
+
+func on_use() -> bool:
+	return false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://c7nbamqhima5e"]
+[gd_scene load_steps=48 format=3 uid="uid://c7nbamqhima5e"]
 
 [ext_resource type="Script" path="res://playing_card_hand.gd" id="1_rcuca"]
 [ext_resource type="Script" path="res://game_manager.gd" id="1_rx3vy"]
@@ -22,7 +22,6 @@
 [ext_resource type="Script" path="res://UI/Shop/reroll_holder.gd" id="16_f6e7u"]
 [ext_resource type="Script" path="res://UI/Shop/shop.gd" id="16_tgnmf"]
 [ext_resource type="PackedScene" uid="uid://b77317nvpjxaf" path="res://use_button.tscn" id="19_u6772"]
-[ext_resource type="Script" path="res://tip_display.gd" id="23_1dco4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sjv03"]
 atlas = ExtResource("8_c8m7p")
@@ -213,13 +212,6 @@ texture_margin_right = 9.0
 texture_margin_bottom = 9.0
 modulate_color = Color(0.255, 0.75, 0.288, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u38yh"]
-texture = SubResource("AtlasTexture_sjv03")
-texture_margin_left = 9.0
-texture_margin_top = 9.0
-texture_margin_right = 9.0
-texture_margin_bottom = 9.0
-
 [node name="Game" type="Node2D"]
 script = ExtResource("1_rx3vy")
 
@@ -281,13 +273,18 @@ position = Vector2(140, 0)
 [node name="Holder" type="Node2D" parent="Consumables"]
 
 [node name="Tarot" parent="Consumables/Holder" instance=ExtResource("6_nvvmw")]
-tarot = 17
+tarot = 10
+card_type = 0
+suit = 0
+rank = 0
+enhancement = 0
 
 [node name="Tarot2" parent="Consumables/Holder" instance=ExtResource("6_nvvmw")]
-tarot = 5
-
-[node name="Tarot3" parent="Consumables/Holder" instance=ExtResource("6_nvvmw")]
-tarot = 6
+tarot = 16
+card_type = 0
+suit = 0
+rank = 0
+enhancement = 0
 
 [node name="RoundScore" type="Panel" parent="Consumables"]
 self_modulate = Color(0.14, 0.14, 0.14, 0.282353)
@@ -1240,31 +1237,6 @@ position = Vector2(220, 0)
 
 [node name="DrawPos" type="Node2D" parent="Shop/RerollHolder"]
 position = Vector2(700, 0)
-
-[node name="TipDisplay" type="PanelContainer" parent="."]
-z_index = 100
-offset_right = 140.0
-offset_bottom = 130.0
-pivot_offset = Vector2(70, 0)
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_u38yh")
-script = ExtResource("23_1dco4")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="TipDisplay"]
-layout_mode = 2
-theme_override_constants/line_separation = -10
-theme_override_font_sizes/bold_italics_font_size = 32
-theme_override_font_sizes/italics_font_size = 32
-theme_override_font_sizes/mono_font_size = 32
-theme_override_font_sizes/normal_font_size = 32
-theme_override_font_sizes/bold_font_size = 32
-bbcode_enabled = true
-text = "[center][color=black]Joker Name[/color]
-[color=gray]Hmmm[/color][/center]
-"
-fit_content = true
-scroll_active = false
-shortcut_keys_enabled = false
 
 [connection signal="child_entered_tree" from="Joker/Holder" to="Joker" method="_on_card_enter_holder"]
 [connection signal="child_entered_tree" from="Consumables/Holder" to="Consumables" method="_on_card_enter_holder"]

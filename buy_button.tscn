@@ -1,14 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjvvsih375tr0"]
+[gd_scene load_steps=3 format=3 uid="uid://bpumdanmfmea6"]
 
-[ext_resource type="Texture2D" uid="uid://dqpnlgfqqnrgu" path="res://Card/sell_button.png" id="1_w3huj"]
-[ext_resource type="Script" path="res://Card/sell_button.gd" id="2_7sdfk"]
+[ext_resource type="Texture2D" uid="uid://dqpnlgfqqnrgu" path="res://Card/sell_button.png" id="1_qict5"]
+[ext_resource type="Script" path="res://buy_button.gd" id="2_i1h76"]
 
-[node name="SellButton" type="Sprite2D"]
+[node name="BuyButton" type="Sprite2D"]
 position = Vector2(11.5, 0)
-texture = ExtResource("1_w3huj")
+texture = ExtResource("1_qict5")
 region_enabled = true
 region_rect = Rect2(0, 0, 23, 32)
-script = ExtResource("2_7sdfk")
+script = ExtResource("2_i1h76")
 
 [node name="Label" type="Label" parent="."]
 use_parent_material = true
@@ -16,7 +16,7 @@ offset_top = -5.0
 offset_right = 29.0
 offset_bottom = 15.0
 scale = Vector2(0.4, 0.4)
-text = "Sell"
+text = "Buy"
 horizontal_alignment = 1
 
 [node name="Value" type="Label" parent="."]

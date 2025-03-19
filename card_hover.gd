@@ -15,12 +15,15 @@ var holder: CardHolder = null
 @export var card_type: CardData.Type
 @export var suit: CardData.Suit
 @export var rank: CardData.Rank
+@export var enhancement: CardData.Enhancement
 
 var sell_value: int = 1
+var buy_value: int = 4
 
 @onready var sprite: Sprite2D = $Node/Base
 @onready var shape: CollisionShape2D = $CollisionShape2D
 @onready var content: Sprite2D = $Node/Base/Content
+@onready var base: Sprite2D = $Node/Base
 
 
 func _ready() -> void:
@@ -99,6 +102,9 @@ func _on_mouse_entered() -> void:
 	elif CardData.can_interact:
 		is_card_hovering = true
 	sprite.material.set_shader_parameter("inset", 0)
+	
+	if !is_held:
+		Util.tip.set_text(get_tip_message(), self)
 
 
 func _on_mouse_exited() -> void:
@@ -108,28 +114,42 @@ func _on_mouse_exited() -> void:
 		is_card_hovering = false
 	
 	sprite.material.set_shader_parameter("inset", 0.02)
+	
+	Util.tip.try_hide(self)
 
 
 func update_sprite():
 	content.region_rect.position.x = 23 * rank
 	content.region_rect.position.y = 32 * suit
+	base.region_rect.position.x = 23 * enhancement
+	
+	content.visible = enhancement != CardData.Enhancement.STONE
 
 
 func on_select():
-
-	if !is_selected and holder.selected.size() <= holder.max_selected - 1:
-		is_selected = ! is_selected
-	elif is_selected:
-		is_selected = ! is_selected
 	
-	
-	if is_selected:
-		
-		holder.add_selected(self)
-		
+	if holder.max_selected == 1:
+		if holder.selected.size() > 0 and !is_selected and !Util.just_sold:
+			for card in holder.selected:
+				card.is_selected = false
+				holder.remove_selected(card)
+			is_selected = !is_selected
+		else:
+			is_selected = !is_selected
 	else:
+		if !is_selected and holder.selected.size() <= holder.max_selected - 1:
+			is_selected = ! is_selected
+		elif is_selected:
+			is_selected = ! is_selected
 		
-		holder.remove_selected(self)
+		
+		if is_selected:
+			
+			holder.add_selected(self)
+			
+		else:
+			
+			holder.remove_selected(self)
 
 
 func randomize_card():
@@ -165,3 +185,45 @@ func get_score_chips() -> float:
 func update_draw_order():
 	if !is_selected:
 		sprite.z_index = 2 + get_index()
+
+func on_score_enhancement():
+	
+	if enhancement != CardData.Enhancement.NONE:
+		
+		match(enhancement):
+			
+			CardData.Enhancement.BONUS:
+				Util.chip_alert.activate(global_position, "+50", false)
+				Util.scoring_box.add_chips(50)
+				shake_card()
+				
+				await get_tree().create_timer(0.2).timeout
+			
+			CardData.Enhancement.MULT:
+				Util.mult_alert.activate(global_position, "+4", false)
+				Util.scoring_box.add_mult(4)
+				shake_card()
+				
+				await get_tree().create_timer(0.2).timeout
+			
+			CardData.Enhancement.GLASS:
+				Util.mult_alert.activate(global_position, "X2", false)
+				Util.scoring_box.x_mult(2)
+				shake_card()
+				
+				await get_tree().create_timer(0.2).timeout
+			
+			CardData.Enhancement.STONE:
+				Util.chip_alert.activate(global_position, "+50", false)
+				Util.scoring_box.add_chips(50)
+				shake_card()
+				
+				await get_tree().create_timer(0.2).timeout
+			
+			CardData.Enhancement.LUCKY:
+				pass
+
+func get_tip_message() -> String:
+	return "[center][color=black]James name[/color]
+[color=gray]bonds name[/color][/center]
+"

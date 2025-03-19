@@ -32,11 +32,12 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 	if hand_type == CardData.HandType.HIGH_CARD:
 		var highest_rank: CardInstance
 		for card in played_cards:
-			if highest_rank != null:
-				if highest_rank.rank < card.rank:
+			if card.enhancement != CardData.Enhancement.STONE:
+				if highest_rank != null:
+					if !Util.is_rank_higher_than(highest_rank.rank, card.rank):
+						highest_rank = card
+				else:
 					highest_rank = card
-			else:
-				highest_rank = card
 		
 		scoring_cards.append(highest_rank)
 	
@@ -44,11 +45,12 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 	if is_not_scoring_full_hand(hand_type):
 		var all_ranks: Array[CardData.Rank]
 		for card in played_cards:
-			all_ranks.append(card.rank)
+			if card.enhancement != CardData.Enhancement.STONE:
+				all_ranks.append(card.rank)
 		
 		var ranks: Array[CardData.Rank]
 		for card in played_cards:
-			if ranks.find(card.rank) == -1:
+			if ranks.find(card.rank) == -1 and card.enhancement != CardData.Enhancement.STONE:
 				ranks.append(card.rank)
 		
 		var highest_reoccuring_rank: Array[CardData.Rank]
@@ -70,12 +72,17 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 		
 		for card in played_cards:
 			for rank in highest_reoccuring_rank:
-				if card.rank == rank:
+				if card.rank == rank and card.enhancement != CardData.Enhancement.STONE:
 					scoring_cards.append(card)
-		print("scoring a partial hand")
 	elif hand_type != CardData.HandType.HIGH_CARD:
 		scoring_cards = played_cards.duplicate()
 	
+	for card in cards:
+		if card.enhancement == CardData.Enhancement.STONE:
+			if scoring_cards.find(card) == -1:
+				scoring_cards.append(card)
+	
+	scoring_cards.sort_custom(sort_by_index)
 	
 	# Scoring
 	
@@ -89,6 +96,7 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 		Util.chip_alert.activate(card.global_position, "+%s" % card.get_score_chips(), false)
 		Util.scoring_box.add_chips(card.get_score_chips())
 		
+		
 		card.shake_card()
 		
 		for joker in joker_holder.cards:
@@ -96,6 +104,8 @@ func score_cards(cards: Array[CardInstance], hand_type: CardData.HandType):
 				await joker.ability._on_card_scored(card)
 		
 		await get_tree().create_timer(0.2).timeout
+		
+		await card.on_score_enhancement()
 	
 	played_cards.reverse()
 	
@@ -128,3 +138,9 @@ func clear_played_cards(cards: Array[CardInstance]):
 			card.reparent(Player)
 	
 	cards.clear()
+
+
+func sort_by_index(a, b):
+	if a.get_index() < b.get_index():
+		return true
+	return false

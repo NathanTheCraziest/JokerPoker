@@ -14,6 +14,11 @@ func _ready() -> void:
 
 func on_hand_changed():
 	
+	var selected_cards: Array[CardInstance]
+	for card in holder.selected:
+		if card.enhancement != CardData.Enhancement.STONE:
+			selected_cards.append(card)
+	
 	var is_flush: bool = false
 	var is_straight: bool = false
 	var has_pair: bool = false
@@ -28,13 +33,13 @@ func on_hand_changed():
 	
 	# Common
 	var ranks: Array[CardData.Rank]
-	for card in holder.selected:
+	for card in selected_cards:
 		if ranks.find(card.rank) == -1:
 			ranks.append(card.rank)
 	
 	# Multiple Kinds
 	var all_ranks: Array[CardData.Rank]
-	for card in holder.selected:
+	for card in selected_cards:
 		all_ranks.append(card.rank)
 	
 	var no_of_pairs: int = -1
@@ -61,7 +66,7 @@ func on_hand_changed():
 		
 	
 	# 5 Card Hands
-	if holder.selected.size() == 5:
+	if selected_cards.size() == 5:
 		
 		
 		# Check Straight
@@ -79,7 +84,7 @@ func on_hand_changed():
 			
 			var cards_of_suit: int = 0
 			
-			for card in holder.selected:
+			for card in selected_cards:
 				if (card.suit) == suit:
 					cards_of_suit += 1
 			

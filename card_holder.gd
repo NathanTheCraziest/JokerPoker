@@ -10,7 +10,7 @@ var selected: Array[CardInstance]
 @export var hide_position: Vector2
 @export var show_position: Vector2
 @export var is_hidden: bool = false
-var container_size: int = 10
+@export var container_size: int = 10
 
 @onready var holder: Node2D = $Holder
 @onready var min: Node2D = $Min
@@ -93,3 +93,7 @@ func set_holder_hidden(arg: bool):
 	
 	var tween: Tween = create_tween()
 	tween.tween_property(self, "position", show_position if !is_hidden else hide_position, 0.3).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+
+func _on_card_enter_holder(node: Node) -> void:
+	if node is CardInstance:
+		node.holder = self

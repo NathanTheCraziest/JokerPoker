@@ -5,12 +5,18 @@ class_name PlayingCardHolder
 @onready var draw_pos: Node2D = $DrawPos
 @onready var play_holder: PlayHolder = $"../Play"
 @onready var joker_holder: JokerHolder = $"../Joker"
+@onready var hand_checker: HandChecker = $HandChecker
 
 var can_play_and_discard: bool = true
 
 func _ready() -> void:
 	await get_tree().process_frame
+	start_game()
+
+
+func start_game():
 	draw_card(10)
+	set_holder_hidden(false)
 
 
 func draw_card(amount: int = 1, from_discard: bool = false):
@@ -25,6 +31,7 @@ func draw_card(amount: int = 1, from_discard: bool = false):
 				var random: int = randi_range(0, Player.available_cards.size() - 1)
 				var card: CardInstance = Player.available_cards[random]
 				
+				card.is_selected = false
 				card.reparent(holder)
 				card.set_sprite_position(draw_pos.global_position)
 				card.set_card_visible(true)
@@ -50,6 +57,7 @@ func discard_selected():
 			
 			var temp_selected = selected.duplicate()
 			selected.clear()
+			hovering.clear()
 			
 			for card in temp_selected:
 				
@@ -97,6 +105,7 @@ func play_selected():
 		Util.scoring_box.calculate_score()
 		
 		if Util.game_manager.pre_round_score >= Util.game_manager.blind_panel.blind_goal:
+			selected.clear()
 			cards.reverse()
 			for card in cards:
 				card.position = draw_pos.position

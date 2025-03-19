@@ -11,7 +11,7 @@ func set_reward_message(text: String, money: int):
 	reason.text = text
 	for i in text.length():
 		reason.visible_characters = i
-		await get_tree().create_timer(0.5 / text.length()).timeout
+		await get_tree().create_timer(0.4 / text.length()).timeout
 	reason.visible_characters = -1
 	
 	await get_tree().create_timer(0.5).timeout
