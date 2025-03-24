@@ -17,13 +17,13 @@ func on_use() -> bool:
 			return attempt_chance_enhancement(CardData.Enhancement.MULT, 2)
 		
 		CardData.Tarot.EMPEROR:
-			return true
+			return attempt_create_tarots(3)
 		
 		CardData.Tarot.CHARIOT:
-			pass
+			return attempt_chance_enhancement(CardData.Enhancement.STEEL, 1)
 		
 		CardData.Tarot.JUSTICE:
-			return attempt_chance_enhancement(CardData.Enhancement.STEEL, 1)
+			return attempt_chance_enhancement(CardData.Enhancement.GLASS, 1)
 		
 		CardData.Tarot.HERMIT:
 			Util.game_manager.add_money(clampi(Util.game_manager.money * 2, 0, 20))
@@ -48,13 +48,13 @@ func on_use() -> bool:
 			return true
 		
 		CardData.Tarot.FOOL:
-			return true
+			return attempt_change_to_last_tarot()
 		
 		CardData.Tarot.PRIESTESS:
 			return true
 		
 		CardData.Tarot.HANGED:
-			return true
+			return attempt_delete_cards(2)
 			
 		CardData.Tarot.SUN:
 			return attempt_chance_suit(CardData.Suit.HEART, 3)
@@ -66,7 +66,7 @@ func on_use() -> bool:
 			return attempt_chance_suit(CardData.Suit.DIAMOND, 3)
 		
 		CardData.Tarot.DEATH:
-			return true
+			return attempt_copy_cards()
 		
 		CardData.Tarot.LOVERS:
 			return attempt_chance_enhancement(CardData.Enhancement.WILD, 1)
@@ -79,6 +79,62 @@ func on_use() -> bool:
 	
 	return false
 
+func attempt_create_tarots(attempts: int) -> bool:
+	if Util.game_manager.consumable_holder.container_size > Util.game_manager.consumable_holder.cards.size():
+		
+		for i in attempts - 1:
+			if Util.game_manager.consumable_holder.container_size > Util.game_manager.consumable_holder.cards.size():
+				var new_tarot: TarotInstance = Util.create_tarot(CardData.Tarot.values().pick_random())
+				new_tarot.set_sprite_position(global_position)
+				Util.game_manager.consumable_holder.holder.add_child(new_tarot)
+		Util.game_manager.consumable_holder.check_cards()
+		Util.game_manager.consumable_holder.organize_cards()
+		return true
+	else:
+		return false
+
+func attempt_change_to_last_tarot() -> bool:
+	if Util.game_manager.last_used_tarot != CardData.Tarot.FOOL and Util.game_manager.tarots_used > 0:
+		tarot = Util.game_manager.last_used_tarot
+		update_sprite()
+		shake_card()
+		return false
+	else:
+		return false
+	
+func attempt_copy_cards() -> bool:
+	if Util.game_manager.hand_holder.selected.size() == 2:
+		
+		var left_card: CardInstance
+		var right_card: CardInstance
+		
+		var card1: CardInstance
+		var card2: CardInstance
+		
+		var i: int = 0
+		for card in Util.game_manager.hand_holder.selected:
+			if i == 0:
+				card1 = card
+			else:
+				card2 = card
+			i += 1
+		
+		if card1.get_index() < card2.get_index():
+			right_card = card2
+			left_card = card1
+		else:
+			right_card = card1
+			left_card = card2
+		
+		left_card.enhancement = right_card.enhancement
+		left_card.rank = right_card.rank
+		left_card.suit = right_card.suit
+		left_card.shake_card()
+		
+		Util.game_manager.hand_holder.hand_checker.on_hand_changed()
+		return true
+	else:
+		return false
 
 func attempt_chance_enhancement(enhancement: CardData.Enhancement, max_cards: int) -> bool:
 	if Util.game_manager.hand_holder.selected.size() >= max_cards:
@@ -87,6 +143,22 @@ func attempt_chance_enhancement(enhancement: CardData.Enhancement, max_cards: in
 			card.enhancement = enhancement
 			card.update_sprite()
 			card.shake_card()
+		
+		Util.game_manager.hand_holder.hand_checker.on_hand_changed()
+		return true
+	else:
+		return false
+
+func attempt_delete_cards(max_cards: int) -> bool:
+	if Util.game_manager.hand_holder.selected.size() >= max_cards:
+		
+		var cards_to_delete: Array[CardInstance]
+		
+		for card in Util.game_manager.hand_holder.selected:
+			cards_to_delete.append(card)
+		
+		for card in cards_to_delete:
+			Util.game_manager.hand_holder.delete_card(card)
 		
 		Util.game_manager.hand_holder.hand_checker.on_hand_changed()
 		return true

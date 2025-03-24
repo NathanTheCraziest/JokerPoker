@@ -1,13 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://coqryya0egi5t"]
+[gd_scene load_steps=7 format=3 uid="uid://dvhdcls0xkipd"]
 
-[ext_resource type="Script" path="res://Card/Tarot/tarot_card.gd" id="1_hinad"]
-[ext_resource type="Shader" path="res://card_fov.gdshader" id="2_a3ki4"]
-[ext_resource type="Texture2D" uid="uid://cqjoidpvbodyv" path="res://Card/card_base.png" id="3_wpmky"]
-[ext_resource type="Texture2D" uid="uid://lyo3obiamhh7" path="res://Card/Tarot/tarot_card.png" id="4_yh3p6"]
+[ext_resource type="Script" path="res://Card/Planet/planet_card.gd" id="1_mweip"]
+[ext_resource type="Shader" path="res://card_fov.gdshader" id="2_t1mac"]
+[ext_resource type="Texture2D" uid="uid://cqjoidpvbodyv" path="res://Card/card_base.png" id="3_qog43"]
+[ext_resource type="Texture2D" uid="uid://bey5e25bd4xta" path="res://Card/Planet/planet_card.png" id="4_wrbiq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_551fk"]
 resource_local_to_scene = true
-shader = ExtResource("2_a3ki4")
+shader = ExtResource("2_t1mac")
 shader_parameter/fov = 90.0
 shader_parameter/cull_back = true
 shader_parameter/y_rot = 0.0
@@ -23,9 +23,9 @@ shader_parameter/mouse_screen_pos_test = Vector2(0, 0)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p6kbi"]
 size = Vector2(92, 128)
 
-[node name="Tarot" type="Area2D"]
-script = ExtResource("1_hinad")
-card_type = 2
+[node name="Planet" type="Area2D"]
+script = ExtResource("1_mweip")
+card_type = 3
 
 [node name="Node" type="Node" parent="."]
 
@@ -33,13 +33,13 @@ card_type = 2
 z_index = 2
 material = SubResource("ShaderMaterial_551fk")
 scale = Vector2(4, 4)
-texture = ExtResource("3_wpmky")
+texture = ExtResource("3_qog43")
 region_enabled = true
 region_rect = Rect2(0, 0, 23, 32)
 
 [node name="Content" type="Sprite2D" parent="Node/Base"]
 use_parent_material = true
-texture = ExtResource("4_yh3p6")
+texture = ExtResource("4_wrbiq")
 region_enabled = true
 region_rect = Rect2(0, 0, 23, 32)
 

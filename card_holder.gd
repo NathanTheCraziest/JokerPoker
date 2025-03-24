@@ -81,6 +81,9 @@ func space_between_cards():
 	return distance / cards.size()
 
 func delete_card(card: CardInstance):
+	Util.sell_button.reparent(Util.game_manager)
+	Util.buy_button.reparent(Util.game_manager)
+	Util.use_button.reparent(Util.game_manager)
 	var selected_card: CardInstance = cards[cards.find(card)]
 	cards.remove_at(cards.find(card))
 	remove_selected(selected_card)

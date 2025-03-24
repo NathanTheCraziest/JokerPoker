@@ -13,6 +13,9 @@ var tip: Tip = null
 
 var just_sold: bool = false
 
+const tarot_scene: PackedScene = preload("res://Card/Tarot/tarot_card.tscn")
+const planet_scene: PackedScene = preload("res://Card/Planet/planet_card.tscn")
+
 static func thousands_sep(number, prefix=''):
 	number = int(number)
 	var neg = false
@@ -42,3 +45,17 @@ func is_rank_higher_than(rank1: CardData.Rank, rank2: CardData.Rank) -> bool:
 		result = false
 	
 	return result
+
+func create_tarot(effect: CardData.Tarot):
+	var new_tarot: TarotInstance = tarot_scene.instantiate()
+	
+	new_tarot.tarot = effect
+	
+	return new_tarot
+
+func create_planet(planet: CardData.Planet):
+	var new_planet: PlanetInstance = planet_scene.instantiate()
+	
+	new_planet.planet = planet
+	
+	return new_planet

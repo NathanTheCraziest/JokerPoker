@@ -8,7 +8,8 @@ var abilities: Dictionary = {
 	"crimson_joker": "res://Card/Joker/Abilities/crimson_joker.gd",
 	"dark_joker": "res://Card/Joker/Abilities/dark_joker.gd",
 	"golden_joker": "res://Card/Joker/Abilities/golden_joker.gd",
-	"azure_joker": "res://Card/Joker/Abilities/azure_joker.gd"
+	"azure_joker": "res://Card/Joker/Abilities/azure_joker.gd",
+	"paraslug": "res://Card/Joker/Abilities/paraslug.gd"
 }
 
 func create_ability_node(path: String) -> JokerAbility:

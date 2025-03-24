@@ -20,7 +20,7 @@ func set_text(text: String, card: CardInstance):
 		show()
 		current_card = card
 		label.text = text
-		label.size.y = label.get_minimum_size().y
+		size.y = clampf(label.get_minimum_size().y + 18, 100.0, 999.0)
 		global_position = card.global_position + Vector2(-70, 70) if card.global_position.y <= 0 else card.global_position + Vector2(-70, -70 - size.y)
 	
 

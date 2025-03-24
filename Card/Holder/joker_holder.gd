@@ -20,3 +20,9 @@ func score_jokers():
 			await card.ability._on_joker_scored(hand_checker.current_hand)
 	
 	_jokers_done_scoring.emit()
+
+func score_jokers_on_blind_end():
+	
+	for card in cards:
+		if card is JokerInstance:
+			await card.ability._on_blind_end()

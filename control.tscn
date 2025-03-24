@@ -1,18 +1,16 @@
-[gd_scene load_steps=50 format=3 uid="uid://c7nbamqhima5e"]
+[gd_scene load_steps=48 format=3 uid="uid://c7nbamqhima5e"]
 
 [ext_resource type="Script" path="res://playing_card_hand.gd" id="1_rcuca"]
 [ext_resource type="Script" path="res://game_manager.gd" id="1_rx3vy"]
 [ext_resource type="Script" path="res://Card/Holder/joker_holder.gd" id="1_yn6vu"]
-[ext_resource type="PackedScene" uid="uid://6lt82dhse2ni" path="res://Card/Joker/joker_card.tscn" id="2_jf30t"]
 [ext_resource type="Script" path="res://Card/Holder/card_score_area.gd" id="3_7t8fn"]
 [ext_resource type="Script" path="res://hand_checker.gd" id="3_la1xd"]
+[ext_resource type="PackedScene" uid="uid://6lt82dhse2ni" path="res://Card/Joker/joker_card.tscn" id="3_pe02c"]
 [ext_resource type="Shader" path="res://background.gdshader" id="4_74s3h"]
 [ext_resource type="Script" path="res://card_holder.gd" id="5_n6cqs"]
-[ext_resource type="PackedScene" uid="uid://coqryya0egi5t" path="res://Card/Tarot/tarot_card.tscn" id="6_nvvmw"]
 [ext_resource type="Script" path="res://UI/scoring_box.gd" id="7_d0738"]
 [ext_resource type="Texture2D" uid="uid://cvvm7dcn1d0dv" path="res://Card/score_icon.png" id="8_c8m7p"]
 [ext_resource type="Shader" path="res://UI/score_fire.gdshader" id="8_euent"]
-[ext_resource type="PackedScene" uid="uid://dli0uvjuaxc4a" path="res://Card/card.tscn" id="8_k40gl"]
 [ext_resource type="Script" path="res://alert.gd" id="8_kyc58"]
 [ext_resource type="Texture2D" uid="uid://b2d1uos11bgd6" path="res://Card/stake.png" id="10_d7w0s"]
 [ext_resource type="Script" path="res://UI/blind_manager.gd" id="11_wb75y"]
@@ -236,20 +234,8 @@ position = Vector2(300, 0)
 
 [node name="Holder" type="Node2D" parent="Joker"]
 
-[node name="Joker" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
-ability_id = "jimbo"
-
-[node name="Joker2" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
-ability_id = "crimson_joker"
-
-[node name="Joker3" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
-ability_id = "dark_joker"
-
-[node name="Joker4" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
-ability_id = "golden_joker"
-
-[node name="Joker5" parent="Joker/Holder" instance=ExtResource("2_jf30t")]
-ability_id = "azure_joker"
+[node name="Joker" parent="Joker/Holder" instance=ExtResource("3_pe02c")]
+ability_id = "paraslug"
 
 [node name="RoundScore" type="Panel" parent="Joker"]
 self_modulate = Color(0.14, 0.14, 0.14, 0.282353)
@@ -279,15 +265,6 @@ position = Vector2(-140, 0)
 position = Vector2(140, 0)
 
 [node name="Holder" type="Node2D" parent="Consumables"]
-
-[node name="Tarot" parent="Consumables/Holder" instance=ExtResource("6_nvvmw")]
-tarot = 17
-
-[node name="Tarot2" parent="Consumables/Holder" instance=ExtResource("6_nvvmw")]
-tarot = 5
-
-[node name="Tarot3" parent="Consumables/Holder" instance=ExtResource("6_nvvmw")]
-tarot = 6
 
 [node name="RoundScore" type="Panel" parent="Consumables"]
 self_modulate = Color(0.14, 0.14, 0.14, 0.282353)
@@ -335,21 +312,6 @@ position = Vector2(-300, 0)
 position = Vector2(300, 0)
 
 [node name="Holder" type="Node2D" parent="Hand"]
-
-[node name="Card" parent="Hand/Holder" instance=ExtResource("8_k40gl")]
-enhancement = 1
-
-[node name="Card2" parent="Hand/Holder" instance=ExtResource("8_k40gl")]
-enhancement = 2
-
-[node name="Card3" parent="Hand/Holder" instance=ExtResource("8_k40gl")]
-enhancement = 4
-
-[node name="Card4" parent="Hand/Holder" instance=ExtResource("8_k40gl")]
-enhancement = 6
-
-[node name="Card5" parent="Hand/Holder" instance=ExtResource("8_k40gl")]
-enhancement = 1
 
 [node name="DrawPos" type="Node2D" parent="Hand"]
 position = Vector2(700, 0)
@@ -1241,7 +1203,26 @@ position = Vector2(220, 0)
 [node name="DrawPos" type="Node2D" parent="Shop/RerollHolder"]
 position = Vector2(700, 0)
 
+[node name="RerollHolder2" type="Node2D" parent="Shop"]
+z_index = 2
+position = Vector2(141, 66)
+script = ExtResource("16_f6e7u")
+max_new_cards = 2
+offer_jokers = false
+
+[node name="Min" type="Node2D" parent="Shop/RerollHolder2"]
+position = Vector2(-145, 0)
+
+[node name="Max" type="Node2D" parent="Shop/RerollHolder2"]
+position = Vector2(145, 0)
+
+[node name="Holder" type="Node2D" parent="Shop/RerollHolder2"]
+
+[node name="DrawPos" type="Node2D" parent="Shop/RerollHolder2"]
+position = Vector2(700, 0)
+
 [node name="TipDisplay" type="PanelContainer" parent="."]
+visible = false
 z_index = 100
 offset_right = 140.0
 offset_bottom = 130.0
@@ -1264,6 +1245,7 @@ text = "[center][color=black]Joker Name[/color]
 "
 fit_content = true
 scroll_active = false
+autowrap_mode = 2
 shortcut_keys_enabled = false
 
 [connection signal="child_entered_tree" from="Joker/Holder" to="Joker" method="_on_card_enter_holder"]
@@ -1273,5 +1255,7 @@ shortcut_keys_enabled = false
 [connection signal="button_down" from="Hand/HBoxContainer/Discard" to="Hand" method="discard_selected"]
 [connection signal="child_entered_tree" from="Play/Holder" to="Hand" method="_on_card_enter_holder"]
 [connection signal="button_down" from="UI/EndRewardPanel/Button" to="UI/EndRewardPanel" method="_on_cash_out_button_down"]
+[connection signal="button_down" from="Shop/ShopPanel/Reroll" to="Shop" method="_on_reroll_button_down"]
 [connection signal="button_down" from="Shop/ShopPanel/Next" to="Shop" method="_on_next_button_down"]
 [connection signal="child_entered_tree" from="Shop/RerollHolder/Holder" to="Shop/RerollHolder" method="_on_card_enter_holder"]
+[connection signal="child_entered_tree" from="Shop/RerollHolder2/Holder" to="Shop/RerollHolder2" method="_on_card_enter_holder"]

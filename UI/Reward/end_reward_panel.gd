@@ -57,12 +57,16 @@ func get_end_rewards():
 		await add_reward("%s Hands remaining ($1 each)" % hands_left, hands_left)
 	cash_out_value += Util.game_manager.hands
 	
+	if Util.game_manager.money >= 5:
+		await add_reward("1 interest per $5 (4 max)", clampi(roundi(Util.game_manager.money / 5), 0, 4))
+	
 	cash_out.text = "Cash out: $%s" % str(cash_out_value)
 	can_cash_out = true
 
 
 func _on_cash_out_button_down() -> void:
 	if can_cash_out:
+		Util.game_manager.pre_round_score = 0.0
 		can_cash_out = false
 		Util.game_manager.add_money(cash_out_value)
 		set_panel_visible(false)

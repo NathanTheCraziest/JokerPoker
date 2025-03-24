@@ -11,5 +11,7 @@ func _ready() -> void:
 func _on_texture_button_button_down() -> void:
 	if selected_card != null:
 		reparent(Util.game_manager)
+		rotation = 0.0
+		Util.use_button.reparent(Util.game_manager)
 		Util.game_manager.add_money(selected_card.sell_value)
 		selected_card.holder.delete_card(selected_card)

@@ -7,7 +7,7 @@ var available_cards: Array[CardInstance]
 var max_hands: int = 4
 var max_discards: int = 3
 
-var money: int = 4
+var money: int = 20
 
 var current_money: int = 5
 

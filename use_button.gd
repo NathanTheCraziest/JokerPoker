@@ -19,10 +19,18 @@ func _on_texture_button_button_down() -> void:
 			
 			if Util.sell_button.selected_card == selected_card:
 				Util.sell_button.reparent(Util.game_manager)
+				Util.sell_button.rotation = 0.0
+				rotation = 0.0
 			
-			if selected_card.on_use():
+			if await selected_card.on_use():
 				reparent(Util.game_manager)
 				selected_card.holder.delete_card(selected_card)
+				rotation = 0.0
+				
+				if selected_card is TarotInstance:
+					Util.game_manager.tarots_used += 1
+					Util.game_manager.last_used_tarot = selected_card.tarot
+				
 		CardData.can_interact = true
 
 

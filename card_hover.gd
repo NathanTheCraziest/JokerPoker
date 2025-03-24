@@ -224,6 +224,34 @@ func on_score_enhancement():
 				pass
 
 func get_tip_message() -> String:
-	return "[center][color=black]James name[/color]
-[color=gray]bonds name[/color][/center]
-"
+	return "[center][color=black]%s[/color]
+[color=dodger_blue]+%s Chips[/color][/center]
+" % [get_card_name(), get_score_chips()]
+
+func get_card_name() -> String:
+	var card_name: String
+	
+	if rank == 0 or rank == 10 or rank == 11 or rank == 12:
+		match(rank):
+			0:
+				card_name += "Ace"
+			10:
+				card_name += "Jack"
+			11:
+				card_name += "Queen"
+			12:
+				card_name += "King"
+	else:
+		card_name += str(rank + 1)
+	
+	match(suit):
+		CardData.Suit.HEART:
+			card_name += " of Hearts"
+		CardData.Suit.DIAMOND:
+			card_name += " of Diamonds"
+		CardData.Suit.CLUB:
+			card_name += " of Clubs"
+		CardData.Suit.SPADE:
+			card_name += " of Spades"
+	
+	return card_name

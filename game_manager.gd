@@ -8,6 +8,7 @@ class_name GameManager
 @onready var discards_label: Label = $UI/Panel/Discards/ScorePanel/Tip
 @onready var money_label: Label = $UI/Panel/Money/ScorePanel/Tip
 @onready var joker_holder: JokerHolder = $Joker
+@onready var consumable_holder: CardHolder = $Consumables
 @onready var ante_label: Label = $UI/Panel/Ante/ScorePanel/Tip
 @onready var hand_holder: PlayingCardHolder = $Hand
 var round_score: float = 0.0
@@ -15,6 +16,8 @@ var pre_round_score: float = 0.0
 
 var current_ante: int = 1
 var blind_no: int = 1
+var last_used_tarot: CardData.Tarot
+var tarots_used: int = 0
 
 var hands: int = 0
 var discard: int = 0

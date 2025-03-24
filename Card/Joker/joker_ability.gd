@@ -2,7 +2,7 @@ extends Node
 
 class_name JokerAbility
 
-var joker_card = null
+var joker_card: JokerInstance = null
 
 
 func _ready() -> void:
@@ -16,6 +16,11 @@ func _on_joker_scored(hand_type: CardData.HandType):
 
 func _on_card_scored(card: CardInstance):
 	pass
+
+
+func _on_blind_end():
+	pass
+
 
 func get_texture_index() -> int:
 	return 0

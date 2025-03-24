@@ -86,6 +86,7 @@ func play_selected():
 		can_play_and_discard = false
 		
 		var temp_selected = selected.duplicate()
+		temp_selected.sort_custom(sort_by_index)
 		selected.clear()
 		
 		for card in temp_selected:
@@ -105,6 +106,9 @@ func play_selected():
 		Util.scoring_box.calculate_score()
 		
 		if Util.game_manager.pre_round_score >= Util.game_manager.blind_panel.blind_goal:
+			
+			await joker_holder.score_jokers_on_blind_end()
+			
 			selected.clear()
 			cards.reverse()
 			for card in cards:
@@ -133,3 +137,8 @@ func play_selected():
 func _on_card_enter_holder(node: Node) -> void:
 	if node is CardInstance:
 		node.holder = self
+
+func sort_by_index(a, b):
+	if a.get_index() < b.get_index():
+		return true
+	return false
