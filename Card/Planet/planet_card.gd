@@ -115,7 +115,7 @@ func get_tip_message() -> String:
 			return "[center][color=black]Pluto[/color]
 [color=red]+%s Mult[/color] [color=dodger_blue]+%s Chips[/color]
 [color=gray]%s[/color][/center]
-" % [1, 10, "Straight Flush"]
+" % [1, 10, "High Card"]
 			
 		CardData.Planet.PLANETX:
 			return "[center][color=black]Planet X[/color]
